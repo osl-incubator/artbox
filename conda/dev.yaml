@@ -1,0 +1,11 @@
+name: artbox
+channels:
+  - nodefaults
+  - conda-forge
+dependencies:
+  - pygobject
+  - python >=3.8.1
+  - pip
+  - poetry
+  - nodejs  # used by semantic-release
+  - shellcheck
