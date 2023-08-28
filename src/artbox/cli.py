@@ -133,4 +133,4 @@ def app():
     elif args.runner == "video":
         runner = Video(artbox_args)
 
-    return getattr(runner, args.method)()
+    return getattr(runner, args.method.replace("-", "_"))()

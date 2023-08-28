@@ -146,7 +146,7 @@ class Sound(ArtBox):
 
         return filtered_notes
 
-    def generate_melody(self, total_duration: float):
+    def notes_to_audio(self):
         """
         Generate a simple melody using sine waves.
 
@@ -156,6 +156,11 @@ class Sound(ArtBox):
             The generated melody.
         """
         notes_path = str(self.input_path)
+        total_duration = float(self.args.get("duration", 0))
+
+        if not total_duration:
+            raise Exception("Argument `duration` was not given.")
+
         melody = AudioSegment.silent(0)
 
         notes = NOTES_FREQ
@@ -219,19 +224,6 @@ class Sound(ArtBox):
             "Audio has been extracted and converted to 8-bit format "
             f"with noise reduction. Output saved at '{output_path}'."
         )
-
-    def extract_audio(self) -> None:
-        """Extract audio from an MP4 file."""
-        video_path = str(self.input_path)
-        output_path = str(self.output_path)
-
-        video_clip = VideoFileClip(video_path)
-        audio_clip = video_clip.audio
-        audio_clip.write_audiofile(output_path)
-        audio_clip.close()
-        video_clip.reader.close()
-
-        print(f"Audio has been extracted. Output saved at '{output_path}'.")
 
     def frequency_to_note(self, frequency: float) -> str:
         """

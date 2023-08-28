@@ -38,5 +38,5 @@ class Voice(ArtBox):
         with open(text_path, "r") as f:
             text = f.read()
 
-        tts = gtts.gTTS(text)
+        tts = gtts.gTTS(text, lang="en", slow=False)
         tts.save(str(self.output_path))

@@ -27,7 +27,7 @@ class Video(ArtBox):
 
         print("Video was downloaded successfully")
 
-    def combine_video_audio(self) -> None:
+    def combine_video_and_audio(self) -> None:
         """
         Combine video and audio files to create a new MP4 file.
 
@@ -35,14 +35,15 @@ class Video(ArtBox):
         (video or audio), and the audio will fade out smoothly over the last
         5 seconds.
         """
-        video_path = self.args.get("video_path", "")
-        audio_path = self.args.get("audio_path", "")
+        video_path = self.args.get("video-path", "")
+        audio_path = self.args.get("audio-path", "")
+        output_path = str(self.output_path)
 
         if not video_path:
-            raise Exception("Argument `video_path` not given.")
+            raise Exception("Argument `video-path` not given.")
 
         if not audio_path:
-            raise Exception("Argument `video_path` not given.")
+            raise Exception("Argument `audio-path` not given.")
 
         # Load the video (without audio) from the MP4 file
         video_clip = VideoFileClip(video_path)
@@ -72,14 +73,27 @@ class Video(ArtBox):
         audio_clip.close()
         final_clip.close()
 
+    def extract_audio(self) -> None:
+        """Extract audio from an MP4 file."""
+        video_path = str(self.input_path)
+        output_path = str(self.output_path)
+
+        video_clip = VideoFileClip(video_path)
+        audio_clip = video_clip.audio
+        audio_clip.write_audiofile(output_path)
+        audio_clip.close()
+        video_clip.reader.close()
+
+        print(f"Audio has been extracted. Output saved at '{output_path}'.")
+
     def remove_audio(self) -> None:
         """Remove the audio from an MP4 file."""
 
         # Load the video
-        video = VideoFileClip(str(self.input_file))
+        video = VideoFileClip(str(self.input_path))
 
         # Set the audio track to None
         video = video.set_audio(None)
 
         # Write the result to a file
-        video.write_videofile(str(self.output_file), codec="libx264")
+        video.write_videofile(str(self.output_path), codec="libx264")
