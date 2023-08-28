@@ -1,16 +1,18 @@
+"""A set of methods and classes for handing and creating sounds."""
 import json
+
 from math import log2
 from pathlib import Path
 
 import aubio
 import noisereduce as nr
 import numpy as np
+
 from moviepy.editor import VideoFileClip
 from pydub import AudioSegment
 from pydub.generators import Sine
 
-MEDIA_PATH = Path(__file__).parent.parent.parent / "media"
-SOUNDS_PATH = MEDIA_PATH / "sounds"
+from artbox.base import ArtBox
 
 NOTES_FREQ = {
     "A": 440,
@@ -120,170 +122,188 @@ NOTES_FREQ = {
 }
 
 
-def fix_notes(notes: list[str]) -> list[str]:
-    fixed_notes = []
+class Sound(ArtBox):
+    """A set of methods for handing and creating sounds."""
 
-    for n in notes:
-        while n:
-            if n in NOTES_FREQ:
-                fixed_notes.append(n)
-                break
-            n = n[:-1]
+    def process_notes(self, notes: list[str]) -> list[str]:
+        """Process notes according to the available notes' table."""
+        filtered_notes = []
 
-    return fixed_notes
+        for note in notes:
+            # example of n: C#1
+            processed_note = ""
+            while note:
+                if note in NOTES_FREQ:
+                    processed_note = note
+                    break
+                note = note[:-1]
 
+            if processed_note:
+                filtered_notes.append(processed_note)
+            elif filtered_notes:
+                # replicate the last note
+                filtered_notes.append(filtered_notes[-1])
 
-def generate_melody(notes_path: str, total_duration: float):
-    """
-    Generate a simple melody using sine waves.
+        return filtered_notes
 
-    Returns
-    -------
-    pydub.AudioSegment
-        The generated melody.
-    """
-    melody = AudioSegment.silent(0)
+    def generate_melody(self, total_duration: float):
+        """
+        Generate a simple melody using sine waves.
 
-    notes = NOTES_FREQ
+        Returns
+        -------
+        pydub.AudioSegment
+            The generated melody.
+        """
+        notes_path = str(self.input_path)
+        melody = AudioSegment.silent(0)
 
-    # Define a simple sequence
-    with open(notes_path, "r") as f:
-        background_music_sequence = fix_notes(json.load(f))
+        notes = NOTES_FREQ
 
-    note_duration = round(
-        (total_duration / len(background_music_sequence)) * 1000
-    )
-    # Generate melody
-    for note in background_music_sequence:
-        tone = Sine(notes[note]).to_audio_segment(duration=note_duration)
-        melody += tone
+        # Define a simple sequence
+        with open(notes_path, "r") as f:
+            background_music_sequence = self.process_notes(json.load(f))
 
-    melody.export(str(SOUNDS_PATH / "melody.mp3"), format="mp3")
+        note_duration = round(
+            (total_duration / len(background_music_sequence)) * 1000
+        )
+        # Generate melody
+        for note in background_music_sequence:
+            tone = Sine(notes[note]).to_audio_segment(duration=note_duration)
+            melody += tone
 
+        melody.export(str(self.output_path), format="mp3")
 
-def convert_to_8bit_audio(video_path: str, output_path: str) -> None:
-    """
-    Extract audio from an MP4 file and convert it to a 16-bit.
+    def convert_to_8bit_audio(self) -> None:
+        """
+        Extract audio from an MP4 file and convert it to a 16-bit.
 
-    The result audio would be similar to the sound used by SNES and
-    Sega Genesis.
+        The result audio would be similar to the sound used by SNES and
+        Sega Genesis.
+        """
+        video_path = str(self.input_path)
+        output_path = str(self.output_path)
 
-    Parameters
-    ----------
-    video_path : str
-        Path to the input video file (MP4).
-    output_path : str
-        Path to save the converted audio (WAV).
-    """
-    # Load the video file
-    video_clip = VideoFileClip(video_path)
+        # Load the video file
+        video_clip = VideoFileClip(video_path)
 
-    # Get audio as numpy array (stereo)
-    audio_array = video_clip.audio.to_soundarray(
-        fps=22050
-    )  # Downsample to 22050 Hz
+        # Get audio as numpy array (stereo)
+        audio_array = video_clip.audio.to_soundarray(
+            fps=22050
+        )  # Downsample to 22050 Hz
 
-    # Convert to mono by averaging the two channels
-    audio_mono = audio_array.mean(axis=1)
+        # Convert to mono by averaging the two channels
+        audio_mono = audio_array.mean(axis=1)
 
-    # Reduce noise
-    audio_denoised = nr.reduce_noise(y=audio_mono, sr=22050)
+        # Reduce noise
+        audio_denoised = nr.reduce_noise(y=audio_mono, sr=22050)
 
-    # Convert to 8-bit PCM format
-    audio_8bit = ((audio_denoised + 1) * 127.5).astype("uint8")
+        # Convert to 8-bit PCM format
+        audio_8bit = ((audio_denoised + 1) * 127.5).astype("uint8")
 
-    # Create an AudioSegment from the 8-bit array
-    audio_segment = AudioSegment(
-        audio_8bit.tobytes(),
-        frame_rate=22050,
-        sample_width=1,  # 1 byte = 8 bits
-        channels=1,
-    )
+        # Create an AudioSegment from the 8-bit array
+        audio_segment = AudioSegment(
+            audio_8bit.tobytes(),
+            frame_rate=22050,
+            sample_width=1,  # 1 byte = 8 bits
+            channels=1,
+        )
 
-    # Export as WAV file
-    audio_segment.export(output_path, format="mp3")
+        # Export as WAV file
+        audio_segment.export(output_path, format="mp3")
 
-    # Close the video clip
-    video_clip.reader.close()
+        # Close the video clip
+        video_clip.reader.close()
 
-    print(
-        "Audio has been extracted and converted to 8-bit format "
-        f"with noise reduction. Output saved at '{output_path}'."
-    )
+        print(
+            "Audio has been extracted and converted to 8-bit format "
+            f"with noise reduction. Output saved at '{output_path}'."
+        )
 
+    def extract_audio(self) -> None:
+        """Extract audio from an MP4 file."""
+        video_path = str(self.input_path)
+        output_path = str(self.output_path)
 
-def extract_audio(video_path: str, output_path: str) -> None:
-    """
-    Extract audio from an MP4 file.
+        video_clip = VideoFileClip(video_path)
+        audio_clip = video_clip.audio
+        audio_clip.write_audiofile(output_path)
+        audio_clip.close()
+        video_clip.reader.close()
 
-    Parameters
-    ----------
-    video_path : str
-        Path to the input video file (MP4).
-    output_path : str
-        Path to save the extracted audio (WAV).
-    """
-    video_clip = VideoFileClip(video_path)
-    audio_clip = video_clip.audio
-    audio_clip.write_audiofile(output_path)
-    audio_clip.close()
-    video_clip.reader.close()
+        print(f"Audio has been extracted. Output saved at '{output_path}'.")
 
-    print(f"Audio has been extracted. Output saved at '{output_path}'.")
+    def frequency_to_note(self, frequency: float) -> str:
+        """
+        Convert a frequency in Hz to a musical note.
 
+        Parameters
+        ----------
+        frequency : float
+            Frequency in Hz.
 
-def frequency_to_note(frequency: float) -> str:
-    """
-    Convert a frequency in Hz to a musical note.
+        Returns
+        -------
+        str
+            Corresponding musical note (e.g., "A4", "C#5").
+        """
+        notes = [
+            "C",
+            "C#",
+            "D",
+            "D#",
+            "E",
+            "F",
+            "F#",
+            "G",
+            "G#",
+            "A",
+            "A#",
+            "B",
+        ]
+        octave = int(frequency / 130.81)  # Based on C3 = 130.81 Hz
+        n = int(round(12 * log2(frequency / 440.0)) + 49) % 12
+        return f"{notes[n]}{octave}"
 
-    Parameters
-    ----------
-    frequency : float
-        Frequency in Hz.
+    def extract_notes_from_mp3(self) -> list:
+        """Extra notes from a mp3 file."""
+        mp3_path = str(self.input_path)
+        output_notes = str(self.output_path)
 
-    Returns
-    -------
-    str
-        Corresponding musical note (e.g., "A4", "C#5").
-    """
-    notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-    octave = int(frequency / 130.81)  # Based on C3 = 130.81 Hz
-    n = int(round(12 * log2(frequency / 440.0)) + 49) % 12
-    return f"{notes[n]}{octave}"
+        win_s = 2048  # Correct FFT size
+        hop_s = win_s // 2  # Correct Hop size
 
+        # Convert MP3 to WAV using pydub
+        audio = AudioSegment.from_mp3(mp3_path)
+        audio = audio.set_channels(1)  # Convert to mono
+        samples = np.array(audio.get_array_of_samples())
 
-def extract_notes_from_mp3(mp3_path: str, output_notes: str) -> list:
-    win_s = 2048  # Correct FFT size
-    hop_s = win_s // 2  # Correct Hop size
+        # Create pitch detection object
+        pitch_o = aubio.pitch("default", win_s, hop_s, 44100)
+        pitch_o.set_unit("Hz")
 
-    # Convert MP3 to WAV using pydub
-    audio = AudioSegment.from_mp3(mp3_path)
-    audio = audio.set_channels(1)  # Convert to mono
-    samples = np.array(audio.get_array_of_samples())
+        notes = []
+        for start in range(0, len(samples), hop_s):
+            chunk = samples[start : start + hop_s]
 
-    # Create pitch detection object
-    pitch_o = aubio.pitch("default", win_s, hop_s, 44100)
-    pitch_o.set_unit("Hz")
+            # Zero-pad the chunk if necessary
+            if len(chunk) < hop_s:
+                chunk = np.pad(
+                    chunk,
+                    (0, hop_s - len(chunk)),
+                    "constant",
+                    constant_values=0,
+                )
 
-    notes = []
-    for start in range(0, len(samples), hop_s):
-        chunk = samples[start : start + hop_s]
+            chunk = chunk.astype("float32")
+            frequency = pitch_o(chunk)[0]
 
-        # Zero-pad the chunk if necessary
-        if len(chunk) < hop_s:
-            chunk = np.pad(
-                chunk, (0, hop_s - len(chunk)), "constant", constant_values=0
-            )
+            # Convert frequency to musical note and add to the list
+            if frequency > 0:  # Ignore zero frequencies (silence)
+                note = frequency_to_note(frequency)
+                notes.append(note)
 
-        chunk = chunk.astype("float32")
-        frequency = pitch_o(chunk)[0]
+        with open(output_notes, "w") as f:
+            json.dump(notes, f)
 
-        # Convert frequency to musical note and add to the list
-        if frequency > 0:  # Ignore zero frequencies (silence)
-            note = frequency_to_note(frequency)
-            notes.append(note)
-
-    with open(output_notes, "w") as f:
-        json.dump(notes, f)
-
-    return notes
+        return notes
