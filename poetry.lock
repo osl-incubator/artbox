@@ -978,6 +978,25 @@ files = [
 colorama = ">=0.4"
 
 [[package]]
+name = "gtts"
+version = "2.3.2"
+description = "gTTS (Google Text-to-Speech), a Python library and CLI tool to interface with Google Translate text-to-speech API"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "gTTS-2.3.2-py3-none-any.whl", hash = "sha256:9132e409603f34d5023458e3e10ce2f5df55498d7a2ee781c9adbe616fbd4152"},
+    {file = "gTTS-2.3.2.tar.gz", hash = "sha256:5314f7dedb4230889ff4773edd37e101408497e166982027b8d9582a4585eb4f"},
+]
+
+[package.dependencies]
+click = ">=7.1,<8.2"
+requests = ">=2.27,<3"
+
+[package.extras]
+docs = ["sphinx", "sphinx-autobuild", "sphinx-click", "sphinx-mdinclude", "sphinx-rtd-theme"]
+tests = ["pytest (>=7.1.3,<7.2.0)", "pytest-cov", "testfixtures"]
+
+[[package]]
 name = "identify"
 version = "2.5.27"
 description = "File identification library for Python"
@@ -1624,6 +1643,25 @@ cssselect = ["cssselect (>=0.7)"]
 html5 = ["html5lib"]
 htmlsoup = ["BeautifulSoup4"]
 source = ["Cython (>=0.29.35)"]
+
+[[package]]
+name = "makim"
+version = "1.8.3"
+description = "Simplify the usage of containers"
+optional = false
+python-versions = ">=3.8.1,<4.0.0"
+files = [
+    {file = "makim-1.8.3-py3-none-any.whl", hash = "sha256:3bc87d53ea2b40aaa92e5e08645a62b145fb9020a4888dd48a76eef1a09bb0e6"},
+    {file = "makim-1.8.3.tar.gz", hash = "sha256:d7db0a978aa634d40896043057df11ea908d982080365e409b173c3e35116369"},
+]
+
+[package.dependencies]
+colorama = ">=0.4.6"
+jinja2 = ">=2.0"
+python-dotenv = ">=0.21.1"
+pyyaml = ">=5.0"
+sh = ">=2.0.0"
+xonsh = ">=0.14.0"
 
 [[package]]
 name = "markdown"
@@ -3635,6 +3673,17 @@ testing = ["build[virtualenv]", "filelock (>=3.4.0)", "flake8-2020", "ini2toml[l
 testing-integration = ["build[virtualenv]", "filelock (>=3.4.0)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "pytest", "pytest-enabler", "pytest-xdist", "tomli", "virtualenv (>=13.0.0)", "wheel"]
 
 [[package]]
+name = "sh"
+version = "2.0.6"
+description = "Python subprocess replacement"
+optional = false
+python-versions = ">=3.8.1,<4.0"
+files = [
+    {file = "sh-2.0.6-py3-none-any.whl", hash = "sha256:ced8f2e081a858b66a46ace3703dec243779abbd5a1887ba7e3c34f34da70cd2"},
+    {file = "sh-2.0.6.tar.gz", hash = "sha256:9b2998f313f201c777e2c0061f0b1367497097ef13388595be147e2a00bf7ba1"},
+]
+
+[[package]]
 name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
@@ -3988,6 +4037,32 @@ files = [
 ]
 
 [[package]]
+name = "xonsh"
+version = "0.14.0"
+description = "Python-powered, cross-platform, Unix-gazing shell"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "xonsh-0.14.0-py310-none-any.whl", hash = "sha256:72506c6dc494103df6d04467e127abddb1c6cbe05cc5903b6a4cbfbad217ff5d"},
+    {file = "xonsh-0.14.0-py311-none-any.whl", hash = "sha256:678a65671bd0a62cdc43e932d6aecc8b1622aa18942e0afb388b8b8ae02f67a5"},
+    {file = "xonsh-0.14.0-py38-none-any.whl", hash = "sha256:25976edc5695fb5806b8b23f384ff48e618e07f4596ec0806007f63122917a83"},
+    {file = "xonsh-0.14.0-py39-none-any.whl", hash = "sha256:751b615726d2322d43c8166ad4bc5cbe65d03a3728f1837aa02380fa9fadb189"},
+    {file = "xonsh-0.14.0.tar.gz", hash = "sha256:45a8aaabb17ce0d6d4eca9b709ecfd7ce1c8fb92162decd29a45bf88a60e9bf1"},
+]
+
+[package.extras]
+bestshell = ["prompt-toolkit (>=3.0.29)", "pygments (>=2.2)"]
+dev = ["pre-commit", "re-ver", "tomli", "xonsh[doc,test]"]
+doc = ["doctr", "furo", "livereload", "matplotlib", "myst-parser", "numpydoc", "psutil", "pyzmq", "runthis-sphinxext", "sphinx (>=3.1,<5)", "tornado", "xonsh[bestshell]"]
+full = ["distro", "gnureadline", "setproctitle", "ujson", "xonsh[ptk,pygments]"]
+linux = ["distro"]
+mac = ["gnureadline"]
+proctitle = ["setproctitle"]
+ptk = ["prompt-toolkit (>=3.0.29)", "pyperclip"]
+pygments = ["pygments (>=2.2)"]
+test = ["coverage (>=5.3.1)", "prompt-toolkit (>=3.0.29)", "pygments (>=2.2)", "pyte (>=0.8.0)", "pytest (>=7)", "pytest-cov", "pytest-mock", "pytest-rerunfailures", "pytest-subprocess", "pytest-timeout", "restructuredtext-lint", "virtualenv (>=20.16.2)", "xonsh[bestshell]"]
+
+[[package]]
 name = "yarl"
 version = "1.9.2"
 description = "Yet another URL library"
@@ -4092,4 +4167,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8.1"
-content-hash = "809e5407193a121176e9a143901548a3444950270385af50cc5a61d413072cc4"
+content-hash = "d33f3566016f9c23dcabe9fb44930262af76fb8e5cfa4ef834733509e887c6ce"

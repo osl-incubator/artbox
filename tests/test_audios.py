@@ -1,5 +1,4 @@
 import pytest
-from artbox.constants import MEDIA_PATH
 
 
 @pytest.mark.skip

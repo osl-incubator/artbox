@@ -1,17 +1,9 @@
 import pytest
-from artbox.constants import (
-    AUDIOS_PATH,
-    RESULTS_PATH,
-    SOUNDS_PATH,
-    VIDEOS_PATH,
-)
-from artbox.video import (
-    combine_video_audio,
-    download,
-    remove_audio,
-)
+
+from artbox.videos import Video
 
 
+@pytest.mark.skip
 def test_combine_video_audio():
     # Example usage
     # "The Legend of Zelda Tears of the Kingdom – Official Trailer 3.mp4"

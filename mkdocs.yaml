@@ -1,8 +1,8 @@
-site_name: GGPEDIA Youtube
-site_url: https://ggpedia.games
+site_name: ArtBox
+site_url: https://ggpedia.github.io/artbox
 repo_url: https://github.com/ggpedia/artbox
-docs_dir: ./
-site_dir: ../build
+docs_dir: ./docs
+site_dir: ./build
 # extra_css:
 #   - stylesheets/extra.css
 # Page tree
