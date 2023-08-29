@@ -27,6 +27,18 @@ $ artbox voice text-to-audio \
     --output-path /tmp/artbox/voice.mp3
 ```
 
+If you need to generate the audio for different language, you can use
+the flag `--lang`:
+
+```bash
+$ echo "Bom dia, mundo!" > /tmp/artbox/text.md
+$ artbox voice text-to-audio \
+    --title artbox \
+    --text-path /tmp/artbox/text.md \
+    --output-path /tmp/artbox/voice.mp3 \
+    --lang pt
+```
+
 ### Download a youtube video
 
 ```bash
