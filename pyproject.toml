@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "artbox"
-version = "0.1.0"  # semantic-release
+version = "0.2.0"  # semantic-release
 description = "GGPEDIA Youtube aims to create youtube videos with AI"
 authors = ["Ivan Ogasawara <ivan.ogasawara@gmail.com>"]
 packages = [
