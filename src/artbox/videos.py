@@ -1,8 +1,8 @@
 """
+Set of tools for video handling.
+
 ref: https://github.com/ethand91/python-youtube/blob/master/main.py
 """
-from pathlib import Path
-
 from moviepy.editor import AudioFileClip, VideoFileClip
 from pytube import YouTube
 
@@ -10,6 +10,8 @@ from artbox.base import ArtBox
 
 
 class Video(ArtBox):
+    """Set of tools for handing videos."""
+
     def download_from_youtube(self):
         """Download a youtube video."""
         video_url = self.args.get("url", "")
@@ -22,7 +24,7 @@ class Video(ArtBox):
 
         try:
             video.download(str(self.output_path))
-        except:
+        except Exception:
             print("Failed to download video")
 
         print("Video was downloaded successfully")
@@ -88,7 +90,6 @@ class Video(ArtBox):
 
     def remove_audio(self) -> None:
         """Remove the audio from an MP4 file."""
-
         # Load the video
         video = VideoFileClip(str(self.input_path))
 

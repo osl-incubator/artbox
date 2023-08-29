@@ -2,7 +2,6 @@
 import json
 
 from math import log2
-from pathlib import Path
 
 import aubio
 import noisereduce as nr
@@ -292,7 +291,7 @@ class Sound(ArtBox):
 
             # Convert frequency to musical note and add to the list
             if frequency > 0:  # Ignore zero frequencies (silence)
-                note = frequency_to_note(frequency)
+                note = self.frequency_to_note(frequency)
                 notes.append(note)
 
         with open(output_notes, "w") as f:
