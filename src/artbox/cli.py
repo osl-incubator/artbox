@@ -1,9 +1,6 @@
 """Cli functions to define the arguments and to call Makim."""
 import argparse
-import os
 import sys
-
-from pathlib import Path
 
 from artbox import __version__
 from artbox.sounds import Sound
