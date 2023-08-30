@@ -1,4 +1,6 @@
 """Set of tests for the voices module."""
+import os
+
 from pathlib import Path
 
 import pytest
@@ -6,6 +8,8 @@ import pytest
 from artbox.voices import Voice
 
 TMP_PATH = Path("/tmp/artbox")
+
+os.makedirs(TMP_PATH, exist_ok=True)
 
 
 @pytest.mark.parametrize("engine", ["gtts", "edge-tts"])
