@@ -20,7 +20,7 @@ class VoiceEngineBase(ArtBox, ABC):
     """Set of methods for handing audio voices."""
 
     @abstractmethod
-    def text_to_audio(self) -> None:
+    def text_to_speech(self) -> None:
         """Convert text to audio voice."""
         ...
 
@@ -40,15 +40,15 @@ class Voice(VoiceEngineBase):
         else:
             raise Exception(f"Engine {engine} not found.")
 
-    def text_to_audio(self) -> None:
+    def text_to_speech(self) -> None:
         """Convert text to audio voice."""
-        return self.engine.text_to_audio()
+        return self.engine.text_to_speech()
 
 
 class VoiceEngineGTTS(VoiceEngineBase):
     """Google-Text-To-Speech engine."""
 
-    def text_to_audio(self) -> None:
+    def text_to_speech(self) -> None:
         """Convert text to audio voice."""
         title: str = self.args.get("title", "")
         text_path: str = self.args.get("text-path", "")
@@ -70,7 +70,7 @@ class VoiceEngineGTTS(VoiceEngineBase):
 class VoiceEngineMSEdgeTTS(VoiceEngineBase):
     """Microsoft Edge Text-To-Speech engine."""
 
-    async def async_text_to_audio(self) -> None:
+    async def async_text_to_speech(self) -> None:
         """Convert text to audio voice in async mode."""
         title: str = self.args.get("title", "")
         text_path: str = self.args.get("text-path", "")
@@ -102,10 +102,10 @@ class VoiceEngineMSEdgeTTS(VoiceEngineBase):
                 elif chunk["type"] == "WordBoundary":
                     print(f"WordBoundary: {chunk}")
 
-    def text_to_audio(self) -> None:
+    def text_to_speech(self) -> None:
         """Convert text to audio voice."""
         loop = asyncio.get_event_loop_policy().get_event_loop()
         try:
-            loop.run_until_complete(self.async_text_to_audio())
+            loop.run_until_complete(self.async_text_to_speech())
         finally:
             loop.close()
