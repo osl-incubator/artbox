@@ -1,4 +1,6 @@
 """Set of tests for the voices module."""
+import os
+
 from pathlib import Path
 
 import pytest
@@ -7,15 +9,25 @@ from artbox.voices import Voice
 
 TMP_PATH = Path("/tmp/artbox")
 
+os.makedirs(TMP_PATH, exist_ok=True)
 
-@pytest.mark.skip
-def test_voice_text_conversion() -> None:
+
+@pytest.mark.parametrize("engine", ["gtts", "edge-tts"])
+def test_convert_text_to_speech(engine) -> None:
     """Test the conversion from text to audio."""
-    audio = Voice()
-    texts_path = TMP_PATH / "texts"
+    text_path = TMP_PATH / f"totk-{engine}.txt"
+    params = {
+        "title": "totk",
+        "text-path": str(text_path),
+        "output-path": str(TMP_PATH / f"voice-{engine}.mp3"),
+        "engine": engine,
+    }
 
-    with open(texts_path / "totk.txt") as f:
-        text = f.read()
+    with open(text_path, "w") as f:
+        f.write(
+            "Are you ready to join Link and Zelda in fighting "
+            "off this unprecedented threat to Hyrule?"
+        )
 
-    title = "The Legend of Zelda Tears of the Kingdom"
-    audio.convert(title, text)
+    voice = Voice(params)
+    voice.text_to_speech()

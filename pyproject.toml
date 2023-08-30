@@ -28,6 +28,7 @@ pydub = "^0.25.1"
 noisereduce = "^2.0.1"
 aubio = "^0.4.9"
 gtts = "^2.3.2"
+edge-tts = "^6.1.8"
 
 [tool.poetry.group.dev.dependencies]
 urllib3 = "<2"  # fix poetry issues

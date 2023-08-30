@@ -9,6 +9,18 @@ ArtBox is a tool set for handling multimedia files.
 
 TBD
 
+# Setup
+
+ArtBox uses some dependencies that maybe would not work well in your machine. In
+order to have everything well installed, create a conda/mamba environment and
+install `artbox` there.
+
+```bash
+$ mamba create --name artbox "python>=3.8.1" pygobject pip
+$ conda activate artbox
+$ pip install artbox
+```
+
 ## Examples
 
 For the following examples, create the a temporary folder for artbox:
@@ -19,24 +31,43 @@ $ mkdir /tmp/artbox
 
 ### Convert text to audio
 
+By default, the `artbox voice` uses
+[`edge-tts`](https://pypi.org/project/edge-tts/) engine, but if you can also
+specify [`gtts`](https://github.com/pndurette/gTTS) with the flag
+`--engine gtts`.
+
 ```bash
-$ echo "I love artbox!" > /tmp/artbox/text.md
-$ artbox voice text-to-audio \
+$ echo "Are you ready to join Link and Zelda in fighting off this unprecedented threat to Hyrule?" > /tmp/artbox/text.md
+$ artbox voice text-to-speech \
     --title artbox \
     --text-path /tmp/artbox/text.md \
-    --output-path /tmp/artbox/voice.mp3
+    --output-path /tmp/artbox/voice.mp3 \
+    --engine edge-tts
 ```
 
-If you need to generate the audio for different language, you can use
-the flag `--lang`:
+If you need to generate the audio for different language, you can use the flag
+`--lang`:
 
 ```bash
 $ echo "Bom dia, mundo!" > /tmp/artbox/text.md
-$ artbox voice text-to-audio \
+$ artbox voice text-to-speech \
     --title artbox \
     --text-path /tmp/artbox/text.md \
     --output-path /tmp/artbox/voice.mp3 \
     --lang pt
+```
+
+If you are using `edge-tts` engine (the default one), you can also specify the
+locale for that language, for example:
+
+```bash
+$ echo "Are you ready to join Link and Zelda in fighting off this unprecedented threat to Hyrule?" > /tmp/artbox/text.md
+$ artbox voice text-to-speech \
+    --title artbox \
+    --text-path /tmp/artbox/text.md \
+    --output-path /tmp/artbox/voice.mp3 \
+    --engine edge-tts \
+    --lang en-IN
 ```
 
 ### Download a youtube video
