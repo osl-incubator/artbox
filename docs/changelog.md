@@ -1,6 +1,13 @@
 # Release Notes
 ---
 
+# [0.3.0](https://github.com/ggpedia/artbox/compare/0.2.0...0.3.0) (2023-08-30)
+
+
+### Features
+
+* Add engine options for Voice class. ([#6](https://github.com/ggpedia/artbox/issues/6)) ([d4381f7](https://github.com/ggpedia/artbox/commit/d4381f781a98ffb51fb103d671c5a9115bb3f6d1))
+
 # [0.2.0](https://github.com/ggpedia/artbox/compare/0.1.0...0.2.0) (2023-08-29)
 
 
