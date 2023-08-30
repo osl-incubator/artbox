@@ -749,6 +749,24 @@ files = [
 ]
 
 [[package]]
+name = "edge-tts"
+version = "6.1.8"
+description = "Microsoft Edge's TTS"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "edge-tts-6.1.8.tar.gz", hash = "sha256:a98a7fa8ba7b3b70536b31ee81838177cc41638ef1a8400c923bbd6e4b0d6ef6"},
+    {file = "edge_tts-6.1.8-py3-none-any.whl", hash = "sha256:5847550099fe86b4773b53c8c94bf489bdd8b3bdeb5f2e30d64bce3d4510a8f0"},
+]
+
+[package.dependencies]
+aiohttp = ">=3.8.0"
+certifi = "2023.07.22"
+
+[package.extras]
+dev = ["black", "isort", "mypy", "pylint"]
+
+[[package]]
 name = "exceptiongroup"
 version = "1.1.3"
 description = "Backport of PEP 654 (exception groups)"
@@ -4167,4 +4185,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8.1"
-content-hash = "d33f3566016f9c23dcabe9fb44930262af76fb8e5cfa4ef834733509e887c6ce"
+content-hash = "5fd3fdf602406d4b6b1dc009f1d1e62cb64a711cd5edd96f854cfad887ce2ca5"

@@ -19,16 +19,22 @@ $ mkdir /tmp/artbox
 
 ### Convert text to audio
 
+By default, the `artbox voice` uses
+[`edge-tts`](https://pypi.org/project/edge-tts/) engine, but if you can also
+specify [`gtts`](https://github.com/pndurette/gTTS) with the flag
+`--engine gtts`.
+
 ```bash
-$ echo "I love artbox!" > /tmp/artbox/text.md
+$ echo "Are you ready to join Link and Zelda in fighting off this unprecedented threat to Hyrule?" > /tmp/artbox/text.md
 $ artbox voice text-to-audio \
     --title artbox \
     --text-path /tmp/artbox/text.md \
-    --output-path /tmp/artbox/voice.mp3
+    --output-path /tmp/artbox/voice.mp3 \
+    --engine edge-tts
 ```
 
-If you need to generate the audio for different language, you can use
-the flag `--lang`:
+If you need to generate the audio for different language, you can use the flag
+`--lang`:
 
 ```bash
 $ echo "Bom dia, mundo!" > /tmp/artbox/text.md
