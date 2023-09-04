@@ -1,10 +1,11 @@
 """Base classes for ArtBox."""
 from __future__ import annotations
 
+from abc import ABC
 from pathlib import Path
 
 
-class ArtBox:
+class ArtBox(ABC):
     """The base class for all ArtBox classes."""
 
     def __init__(self, args: dict[str, str]) -> None:
