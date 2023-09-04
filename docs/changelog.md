@@ -1,6 +1,13 @@
 # Release Notes
 ---
 
+# [0.4.0](https://github.com/ggpedia/artbox/compare/0.3.0...0.4.0) (2023-09-04)
+
+
+### Features
+
+* add option for downloading from youtube with a specific resolution. ([#7](https://github.com/ggpedia/artbox/issues/7)) ([933d937](https://github.com/ggpedia/artbox/commit/933d937910ba369892760b444d9b3b2fafd2a503))
+
 # [0.3.0](https://github.com/ggpedia/artbox/compare/0.2.0...0.3.0) (2023-08-30)
 
 
