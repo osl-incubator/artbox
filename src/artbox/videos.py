@@ -3,31 +3,58 @@ Set of tools for video handling.
 
 ref: https://github.com/ethand91/python-youtube/blob/master/main.py
 """
+from abc import abstractmethod
+
 from moviepy.editor import AudioFileClip, VideoFileClip
 from pytube import YouTube
 
 from artbox.base import ArtBox
 
 
-class Video(ArtBox):
+class DownloadBase(ArtBox):
     """Set of tools for handing videos."""
 
-    def download_from_youtube(self):
+    @abstractmethod
+    def download(self):
+        """Download a video."""
+        ...
+
+
+class Youtube(DownloadBase):
+    """Set of tools for handing videos."""
+
+    def download(self):
         """Download a youtube video."""
+        resolution = self.args.get("resolution", "")
         video_url = self.args.get("url", "")
 
         if not video_url:
             raise Exception("Argument `url` not given.")
 
         video = YouTube(video_url)
-        video = video.streams.get_highest_resolution()
+
+        # Filter the stream by resolution if provided,
+        # else get the highest resolution
+        if resolution:
+            video_stream = video.streams.filter(
+                res=resolution, file_extension="mp4"
+            ).first()
+            if video_stream is None:
+                raise Exception(
+                    f"No video stream found with resolution {resolution}."
+                )
+        else:
+            video_stream = video.streams.get_highest_resolution()
 
         try:
-            video.download(str(self.output_path))
-        except Exception:
-            print("Failed to download video")
+            video_stream.download(str(self.output_path))
+            print("Video was downloaded successfully")
+        except Exception as e:
+            print(f"Failed to download video: {e}")
 
-        print("Video was downloaded successfully")
+
+class Video(ArtBox):
+    """Set of tools for handing videos."""
 
     def combine_video_and_audio(self) -> None:
         """

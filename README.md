@@ -72,10 +72,23 @@ $ artbox voice text-to-speech \
 
 ### Download a youtube video
 
+If you want to download videos from the youtube, you can use the following
+command:
+
 ```bash
-$ artbox video download-from-youtube \
+$ artbox youtube download \
     --url https://www.youtube.com/watch?v=zw47_q9wbBE \
     --output-path /tmp/artbox/
+```
+
+The command above downloads using a random resolution. If you want a specific
+resolution, use the flat `--resolution`:
+
+```bash
+$ artbox youtube download \
+    --url https://www.youtube.com/watch?v=zw47_q9wbBE \
+    --output-path /tmp/artbox/ \
+    --resolution 360p
 ```
 
 ### Create a song based on the musical notes

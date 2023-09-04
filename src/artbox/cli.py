@@ -4,7 +4,7 @@ import sys
 
 from artbox import __version__
 from artbox.sounds import Sound
-from artbox.videos import Video
+from artbox.videos import Video, Youtube
 from artbox.voices import Voice
 
 
@@ -129,5 +129,7 @@ def app():
         runner = Voice(artbox_args)
     elif args.runner == "video":
         runner = Video(artbox_args)
+    elif args.runner == "youtube":
+        runner = Youtube(artbox_args)
 
     return getattr(runner, args.method.replace("-", "_"))()
