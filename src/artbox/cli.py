@@ -1,135 +1,145 @@
 """Cli functions to define the arguments and to call Makim."""
-import argparse
+import typer
 import sys
+
+from typing_extensions import Annotated
 
 from artbox import __version__
 from artbox.sounds import Sound
-from artbox.videos import Video, Youtube
+from artbox.videos import Youtube, Video
 from artbox.voices import Voice
 
+app = typer.Typer(
+    name="Artbox", 
+    help="A set of tools for handling multimedia files.",
+    epilog=(
+        "If you have any problem, open an issue at: "
+        "https://github.com/ggpedia/artbox"
+    ),
+)
 
-class CustomHelpFormatter(argparse.RawTextHelpFormatter):
-    """Formatter for generating usage messages and argument help strings.
+app_sound = typer.Typer()
+app_video = typer.Typer()
+app_voice = typer.Typer()
+app_youtube = typer.Typer()
 
-    Only the name of this class is considered a public API. All the methods
-    provided by the class are considered an implementation detail.
-    """
+app.add_typer(app_sound, name="sound")
+app.add_typer(app_video, name="video")
+app.add_typer(app_voice, name="voice")
+app.add_typer(app_youtube, name="youtube")
 
-    def __init__(
-        self,
-        prog,
-        indent_increment=2,
-        max_help_position=4,
-        width=None,
-        **kwargs,
-    ):
-        """Define the parameters for the argparse help text."""
-        super().__init__(
-            prog,
-            indent_increment=indent_increment,
-            max_help_position=max_help_position,
-            width=width,
-            **kwargs,
-        )
-
-
-def _get_args():
-    """Define the arguments for the CLI."""
-    parser = argparse.ArgumentParser(
-        prog="ArtBox",
-        description="A set of tools for handling multimedia files.",
-        epilog=(
-            "If you have any problem, open an issue at: "
-            "https://github.com/ggpedia/artbox"
-        ),
-        formatter_class=CustomHelpFormatter,
-    )
-    parser.add_argument(
+@app.callback(invoke_without_command=True)
+def main(
+    ctx: typer.Context,
+    version: bool = typer.Option(
+        None,
         "--version",
-        action="store_true",
-        help="Show the version of the installed MakIm tool.",
-    )
-    parser.add_argument(
-        "runner",
-        default=None,
-        help=(
-            "Specify the runner to be performed. "
-            "\nOptions are: audio, sounds, and video."
-        ),
-    )
-    parser.add_argument(
-        "method",
-        default=None,
-        help=("Specify the runner method to be performed."),
-    )
-    return parser
+        "-v",
+        is_flag=True,
+        help="Show the version and exit.",
+    ),
+) -> None:
+    """Process commands for specific flags; otherwise, show the help menu."""
+    if version:
+        typer.echo(f"Version: {__version__}")
+        raise typer.Exit()
 
+    if ctx.invoked_subcommand is None:
+        typer.echo(ctx.get_help())
+        raise typer.Exit(0)
+    
+@app_voice.command("text-to-speech")
+def text_to_speech(
+    title: Annotated[str, typer.Option("--title", help="Specify the name of the audio file")] = "artbox",
+    text_path: Annotated[str, typer.Option("--text-path", help="Specify the path of the text file")] = "",
+    output_path: Annotated[str, typer.Option("--output-path", help="Specify the path to store the audio file")] = "",
+    engine: Annotated[str, typer.Option("--engine", help="Choose the text-to-speech engine (Options: edge-tts, gtts)")] = "edge-tts",
+    lang: Annotated[str, typer.Option("--lang", help="Choose the language for audio generation")] = "",
+) -> None:
+    """Convert text to speech"""
+    args_dict = {
+        'title': title,
+        'text-path': text_path,
+        'output_path': output_path,
+        'engine': engine,
+        'lang': lang,
+    }
 
-def extract_artbox_args():
-    """Extract artbox arguments from the CLI call."""
-    artbox_args = {}
-    index_to_remove = []
+    runner = Voice(args_dict)
+    runner.text_to_speech()
 
-    for ind, arg in enumerate(list(sys.argv)):
-        if arg in [
-            "--help",
-            "--version",
-        ]:
-            continue
+@app_sound.command("notes-to-audio")
+def notes_to_audio(
+    input_path: Annotated[str, typer.Option("--input-path", help="Specify the path of the input file")] = "",
+    output_path: Annotated[str, typer.Option("--output-path", help="Specify the path to store the audio file")] = "",
+    duration: Annotated[str, typer.Option("--duration", help="Specify the duration of the audio")] = "",
+) -> None:
+    """Convert notes to audio"""
+    args_dict = {
+        'input-path': input_path,
+        'output-path': output_path,
+        'duration': duration
+    }
 
-        if not arg.startswith("--"):
-            continue
+    runner = Sound(args_dict)
+    runner.notes_to_audio()
 
-        index_to_remove.append(ind)
+@app_video.command("remove-audio")
+def remove_audio(
+    input_path: Annotated[str, typer.Option("--input-path", help="Specify the path of the input video file")] = "",
+    output_path: Annotated[str, typer.Option("--output-path", help="Specify the path to store the video file")] = "",
+) -> None:
+    """Remove audio from video file"""
+    args_dict = {
+        'input-path': input_path,
+        'output-path': output_path,
+    }
 
-        arg_name = None
-        arg_value = None
+    runner = Video(args_dict)
+    runner.remove_audio()
 
-        next_ind = ind + 1
+@app_video.command("extract-audio")
+def extract_audio(
+    input_path: Annotated[str, typer.Option("--input-path", help="Specify the path of the input video file")] = "",
+    output_path: Annotated[str, typer.Option("--output-path", help="Specify the path to store the extracted audio file")] = "",
+) -> None:
+    """Extract audio from video file"""
+    args_dict = {
+        'input-path': input_path,
+        'output-path': output_path,
+    }
 
-        arg_name = sys.argv[ind][2:]
+    runner = Video(args_dict)
+    runner.extract_audio()
 
-        if (
-            len(sys.argv) == next_ind
-            or len(sys.argv) > next_ind
-            and sys.argv[next_ind].startswith("--")
-        ):
-            arg_value = True
-        else:
-            arg_value = sys.argv[next_ind]
-            index_to_remove.append(next_ind)
+@app_video.command("combine-video-and-audio")
+def combine_audio_and_video(
+    video_path: Annotated[str, typer.Option("--video-path", help="Specify the path of the video file")] = "",
+    audio_path: Annotated[str, typer.Option("--audio-path", help="Specify the path of the audio file")] = "",
+    output_path: Annotated[str, typer.Option("--output-path", help="Specify the path to store the combined video file")] = "",
+) -> None:
+    """Combine audio and video files"""
+    args_dict = {
+        'video-path': video_path,
+        'audio-path': audio_path,
+        'output-path': output_path,
+    }
 
-        artbox_args[arg_name] = arg_value
+    runner = Video(args_dict)
+    runner.combine_video_and_audio()
 
-    # remove exclusive artbox flags from original sys.argv
-    for ind in sorted(index_to_remove, reverse=True):
-        sys.argv.pop(ind)
+@app_youtube.command("download")
+def download_youtube_video(
+    url: Annotated[str, typer.Option("--url", help="Specify the URL of the YouTube video to download")] = "",
+    output_path: Annotated[str, typer.Option("--output-path", help="Specify the path to store the downloaded video file")] = "",
+    resolution: Annotated[str, typer.Option("--resolution", help="Set the quality of the downloaded video")]="",
+) -> None:
+    """Download youtube video"""
+    args_dict = {
+        'url': url,
+        'output-path': output_path,
+        'resolution': resolution,
+    }
 
-    return artbox_args
-
-
-def show_version():
-    """Show version."""
-    print(__version__)
-
-
-def app():
-    """Call the artbox program with the arguments defined by the user."""
-    artbox_args = extract_artbox_args()
-
-    args_parser = _get_args()
-    args = args_parser.parse_args()
-
-    if args.version:
-        return show_version()
-
-    if args.runner == "sound":
-        runner = Sound(artbox_args)
-    elif args.runner == "voice":
-        runner = Voice(artbox_args)
-    elif args.runner == "video":
-        runner = Video(artbox_args)
-    elif args.runner == "youtube":
-        runner = Youtube(artbox_args)
-
-    return getattr(runner, args.method.replace("-", "_"))()
+    runner = Youtube(args_dict)
+    runner.download()
