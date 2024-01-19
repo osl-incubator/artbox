@@ -1,7 +1,12 @@
 """Set of tests for the videos module."""
+import unittest
+import os
+
 from pathlib import Path
 
 import pytest
+
+from moviepy.editor import VideoFileClip
 
 from artbox.videos import Video
 
@@ -46,3 +51,24 @@ def test_remove_audio(video):
     )
     output_file = "peachs-no-audio.mp4"
     video.remove_audio(input_file, TMP_PATH / output_file)
+
+@pytest.mark.skip
+class TestCreateAsciiVideo(unittest.TestCase):
+    def setUp(self):
+        # Path for a sample short video (replace with your own short video path for testing)
+        self.input_path = 'input_short.mp4'
+        self.output_path = 'ascii_output_test.mp4'
+        self.duration = 1  # short duration for testing
+
+    def test_create_ascii_video(self):
+        video.create_ascii_video(self.input_path, self.output_path, self.duration)
+
+        # Verify that the output video is created
+        self.assertTrue(os.path.exists(self.output_path))
+
+        # Verify the duration of the output video
+        with VideoFileClip(self.output_path) as video:
+            self.assertAlmostEqual(video.duration, self.duration, delta=0.1)
+
+        # Clean up (delete the generated video)
+        os.remove(self.output_path)

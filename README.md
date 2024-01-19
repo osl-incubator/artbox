@@ -145,6 +145,14 @@ $ artbox video combine-video-and-audio \
   --output-path /tmp/artbox/botw-combined.mp4
 ```
 
+### Convert video image to video ascii
+
+```bash
+$ artbox video create_ascii_video \
+  --input-path "/tmp/artbox/The Legend of Zelda Breath of the Wild - Nintendo Switch Presentation 2017 Trailer.mp4" \
+  --output-path /tmp/artbox/botw-ascii.mp4
+```
+
 ## Additional dependencies
 
 If you want to use Python to play your audio files, you can install `playsound`:

@@ -5,7 +5,10 @@ ref: https://github.com/ethand91/python-youtube/blob/master/main.py
 """
 from abc import abstractmethod
 
-from moviepy.editor import AudioFileClip, VideoFileClip
+import numpy as np
+
+from moviepy.editor import AudioFileClip, VideoFileClip, VideoClip
+from PIL import Image
 from pytube import YouTube
 
 from artbox.base import ArtBox
@@ -55,6 +58,62 @@ class Youtube(DownloadBase):
 
 class Video(ArtBox):
     """Set of tools for handing videos."""
+
+    def image_to_ascii(self, image_np: np.ndarray) -> np.ndarray:
+        """
+        Convert a single frame to ASCII art.
+
+        Parameters
+        ----------
+        image_np : np.ndarray
+            Numpy array of the frame image.
+
+        Returns
+        -------
+        np.ndarray
+            Numpy array of the ASCII frame image.
+        """
+        # Convert the numpy array to a PIL image and convert to grayscale
+        image = Image.fromarray(image_np, 'RGB').convert('L')
+
+        # ASCII characters
+        ascii_chars = "@%#*+=-:. "
+
+        # Create an empty string to store the ASCII art
+        ascii_str = ''
+
+        for pixel_value in np.array(image).flatten():
+            ascii_str += ascii_chars[pixel_value * len(ascii_chars) // 256]
+
+        # Convert ASCII string back to image
+        ascii_image = Image.new('L', image.size)
+        ascii_image.putdata(
+            [256 // len(ascii_chars) * ascii_chars.index(c) for c in ascii_str]
+        )
+
+        return np.array(ascii_image.resize(image_np.shape[1::-1]))
+
+    def create_ascii_video(self) -> None:
+        """
+        Convert the video frames to ASCII art and save to a new video.
+        """
+        input_path: str = str(self.input_path)
+        output_path: str = str(self.output_path)
+
+        # Read video file
+        video_clip = VideoFileClip(input_path)
+        duration = video_clip.duration
+
+        # Function to convert each frame to ASCII
+        def make_frame(t):
+            frame = video_clip.get_frame(t)
+            return self.image_to_ascii(frame)
+
+        # Create a new video clip
+        new_clip = VideoClip(make_frame, duration=duration)
+
+        # Save the video
+        new_clip.write_videofile(output_path, fps=24)
 
     def combine_video_and_audio(self) -> None:
         """
