@@ -29,6 +29,7 @@ noisereduce = ">=2.0.1"
 aubio = ">=0.4.9"
 gtts = ">=2.3.2"
 edge-tts = ">=6.1.8"
+torch = ">=2.1.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest = ">=7.3.2"
