@@ -103,6 +103,13 @@ no_strict_optional = false
 
 [[tool.mypy.overrides]]
 module = [
+  "aubio",
+  "edge_tts",
+  "gtts",
+  "moviepy.editor",
+  "noisereduce",
+  "pydub",
+  "pydub.generators",
   "pytube",
 ]
 ignore_missing_imports = true

@@ -135,7 +135,7 @@ class Sound(ArtBox):
                 if note in NOTES_FREQ:
                     processed_note = note
                     break
-                note = note[:-1]
+                note = note[:-1]  # noqa: PLW2901
 
             if processed_note:
                 filtered_notes.append(processed_note)
