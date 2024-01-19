@@ -28,15 +28,19 @@ class VoiceEngineBase(ArtBox, ABC):
 class Voice(VoiceEngineBase):
     """Voice class will run commands according to the selected engine."""
 
+    engine: VoiceEngineBase
+
     def __init__(self, *args, **kwargs) -> None:
         """Initialize Voice class."""
         super().__init__(*args, **kwargs)
         engine = self.args.get("engine", "edge-tts")
 
         if engine == "edge-tts":
-            self.engine = VoiceEngineMSEdgeTTS(*args, **kwargs)
+            self.engine: VoiceEngineBase = VoiceEngineMSEdgeTTS(
+                *args, **kwargs
+            )
         elif engine == "gtts":
-            self.engine = VoiceEngineGTTS(*args, **kwargs)
+            self.engine: VoiceEngineBase = VoiceEngineGTTS(*args, **kwargs)
         else:
             raise Exception(f"Engine {engine} not found.")
 
