@@ -1,13 +1,13 @@
 # Release Notes
+
 ---
 
 ## [0.4.1](https://github.com/osl-incubator/artbox/compare/0.4.0...0.4.1) (2024-01-19)
 
-
 ### Bug Fixes
 
-* Fix dependencies ([#16](https://github.com/osl-incubator/artbox/issues/16)) ([0f0feec](https://github.com/osl-incubator/artbox/commit/0f0feecbbd0b9d639c3133060f6f3350f7a811a1))
-* Update dependencies ([#17](https://github.com/osl-incubator/artbox/issues/17)) ([fb1303e](https://github.com/osl-incubator/artbox/commit/fb1303efa3308b94efdbe5eafd4c1f3433bda335))
+- Fix dependencies ([#16](https://github.com/osl-incubator/artbox/issues/16)) ([0f0feec](https://github.com/osl-incubator/artbox/commit/0f0feecbbd0b9d639c3133060f6f3350f7a811a1))
+- Update dependencies ([#17](https://github.com/osl-incubator/artbox/issues/17)) ([fb1303e](https://github.com/osl-incubator/artbox/commit/fb1303efa3308b94efdbe5eafd4c1f3433bda335))
 
 # Release Notes
 
