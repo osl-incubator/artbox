@@ -6,7 +6,7 @@ ref: https://github.com/ethand91/python-youtube/blob/master/main.py
 from abc import abstractmethod
 
 from moviepy.editor import AudioFileClip, VideoFileClip
-from pytube import YouTube
+from pytube import YouTube as PyYouTube
 
 from artbox.base import ArtBox
 
@@ -31,7 +31,7 @@ class Youtube(DownloadBase):
         if not video_url:
             raise Exception("Argument `url` not given.")
 
-        video = YouTube(video_url)
+        video = PyYouTube(video_url)
 
         # Filter the stream by resolution if provided,
         # else get the highest resolution
