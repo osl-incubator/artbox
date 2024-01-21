@@ -65,7 +65,9 @@ jobs:
           conda-solver: libmamba
 
       - name: Install dependencies
-        run: poetry install
+        run: |
+          sudo apt install ffmpeg
+          poetry install
 
       - name: Run tests
         run: makim tests.unittest
