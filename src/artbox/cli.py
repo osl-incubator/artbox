@@ -17,10 +17,26 @@ app = typer.Typer(
     ),
 )
 
-app_sound = typer.Typer()
-app_video = typer.Typer()
-app_voice = typer.Typer()
-app_youtube = typer.Typer()
+app_sound = typer.Typer(
+    name="sound",
+    help="Audio processing commands for Artbox.",
+    short_help="Audio processing commands.",
+)
+app_video = typer.Typer(
+    name="video",
+    help="Video processing commands for Artbox.",
+    short_help="Video processing commands.",
+)
+app_voice = typer.Typer(
+    name="voice",
+    help="Voice processing commands for Artbox.",
+    short_help="Voice processing commands.",
+)
+app_youtube = typer.Typer(
+    name="youtube",
+    help="YouTube processing commands for Artbox.",
+    short_help="YouTube processing commands.",
+)
 
 app.add_typer(app_sound, name="sound")
 app.add_typer(app_video, name="video")
