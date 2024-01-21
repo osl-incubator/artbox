@@ -1,4 +1,7 @@
 """Set of tests for the sounds module."""
+import os
+import unittest
+
 from pathlib import Path
 
 import pytest
@@ -6,45 +9,61 @@ import pytest
 from artbox.sounds import Sound
 
 TMP_PATH = Path("/tmp/artbox")
+TEST_DATA_DIR = Path(__file__).parent / "data"
+
+os.makedirs(TMP_PATH, exist_ok=True)
 
 
-@pytest.mark.fixture
-def sound():
-    """Create a fixture for the Sound object."""
-    return Sound()
-
-
-@pytest.mark.skip
-def test_extract(sound):
-    """Test the extraction audio from a video."""
-    videos_path = TMP_PATH / "Super Mario Theme  EPIC VERSION.mp4"
-    output_path = TMP_PATH / "sounds" / "smb-epic-theme.mp3"
-    sound.extract_audio(str(videos_path), str(output_path))
-
-
-@pytest.mark.skip
-def test_extract_notes_from_mp3(sound):
+def test_notes_to_audio():
     """Test the extraction of notes from mp3 file."""
-    mp3_path = TMP_PATH / "sounds" / "tok-audio.mp3"
-    output_notes = TMP_PATH / "notes" / "tok-audio.txt"
-    notes = sound.extract_notes_from_mp3(str(mp3_path), str(output_notes))
+    mp3_path = TMP_PATH / "set1.mp3"
+    notes_path = TEST_DATA_DIR / "notes" / "set1.txt"
+
+    params = {
+        "input-path": notes_path,
+        "output-path": mp3_path,
+        "duration": 2,
+    }
+    sound = Sound(params)
+    sound.notes_to_audio()
+
+
+@unittest.skip("not fully implemented")
+def test_extract_notes_from_mp3():
+    """Test the extraction of notes from mp3 file."""
+    filename = "pixabay-science"
+    mp3_path = TEST_DATA_DIR / "audio" / f"{filename}.mp3"
+    output_notes = TMP_PATH / "notes" / f"{filename}.txt"
+    params = {
+        "input-path": mp3_path,
+        "output-path": output_notes,
+    }
+    sound = Sound(params)
+    notes = sound.extract_notes_from_mp3()
     print("Detected notes:", notes)
 
 
-@pytest.mark.skip
-def test_generate_melody(sound):
+@unittest.skip("not fully implemented")
+def test_generate_melody():
     """Test the melody generation from notes."""
     notes_path = TMP_PATH / "notes" / "tok-audio.txt"
-    sound.generate_melody(notes_path, total_duration=3.54 * 60)
+    params = {
+        "input-path": notes_path,
+        "output-path": "/tmp/artbox/sound.mp3",
+        "duration": 3.54 * 60,
+    }
+    sound = Sound(params)
+    sound.generate_melody()
 
 
-@pytest.mark.skip
-def test_convert_to_8bit_audio(sound):
+@unittest.skip("not fully implemented")
+def test_convert_to_8bit_audio():
     """Test the audio conversion to 8bits style."""
-    videos_path = (
-        TMP_PATH
-        / "videos"
-        / "The Legend of Zelda Tears of the Kingdom - Official Trailer 3.mp4"
-    )
+    input_path = TEST_DATA_DIR / "audio" / "pixabay-science.mp3"
     output_path = TMP_PATH / "sounds" / "tok8bits.mp3"
-    sound.convert_to_8bit_audio(str(videos_path), str(output_path))
+    params = {
+        "input-path": mp3_path,
+        "output-path": output_notes,
+    }
+    sound = Sound(params)
+    sound.convert_to_8bit_audio()
