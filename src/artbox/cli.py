@@ -98,7 +98,7 @@ def text_to_speech(
     args_dict = {
         "title": title,
         "text-path": text_path,
-        "output_path": output_path,
+        "output-path": output_path,
         "engine": engine,
         "lang": lang,
     }
