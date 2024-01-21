@@ -92,7 +92,7 @@ def text_to_speech(
         typer.Option(
             "--lang", help="Choose the language for audio generation"
         ),
-    ] = "",
+    ] = "en",
 ) -> None:
     """Convert text to speech."""
     args_dict = {
