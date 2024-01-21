@@ -1,6 +1,13 @@
 # Release Notes
 ---
 
+# [0.5.0](https://github.com/osl-incubator/artbox/compare/0.4.1...0.5.0) (2024-01-21)
+
+
+### Features
+
+* Change CLI backend to Typer ([#19](https://github.com/osl-incubator/artbox/issues/19)) ([8223bd1](https://github.com/osl-incubator/artbox/commit/8223bd1faf46f6854284493e6d9bc3f935159600))
+
 ## [0.4.1](https://github.com/osl-incubator/artbox/compare/0.4.0...0.4.1) (2024-01-19)
 
 

@@ -13,9 +13,8 @@ ArtBox is a tool set for handling multimedia files.
   Python versions. If you want to know about bandit you can check its
   [documentation](https://bandit.readthedocs.io/en/latest/).
 
-- Finds unused code: [Vulture](https://github.com/jendrikseipp/vulture)
-  is useful for cleaning up and finding errors in large code bases in
-  Python.
+- Finds unused code: [Vulture](https://github.com/jendrikseipp/vulture) is
+  useful for cleaning up and finding errors in large code bases in Python.
 
 - Complexity of functions and modules: We use
   [McCabe](https://github.com/PyCQA/mccabe) to identify the complexity in our
@@ -23,8 +22,8 @@ ArtBox is a tool set for handling multimedia files.
   complex code at the outset, we as developers can refactor it to make it easier
   to maintain and understand. In summary, McCabe helps us to improve the quality
   of our code and make it easier to maintain. If you would like to learn more
-  about McCabe and code complexity, you can visit [McCabe - Code Complexity
-  Checker](https://here-be-pythons.readthedocs.io/en/latest/python/mccabe.html).
+  about McCabe and code complexity, you can visit
+  [McCabe - Code Complexity Checker](https://here-be-pythons.readthedocs.io/en/latest/python/mccabe.html).
   This tool is included with [Flake8](https://flake8.pycqa.org/en/latest/).
 
 - TODO
@@ -32,5 +31,5 @@ ArtBox is a tool set for handling multimedia files.
 ## Credits
 
 This package was created with Cookieninja and the
-[osl-incubator/scicookie](https://github.com/osl-incubator/scicookie)
-project template.
+[osl-incubator/scicookie](https://github.com/osl-incubator/scicookie) project
+template.
