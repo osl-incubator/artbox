@@ -16,7 +16,7 @@ order to have everything well installed, create a conda/mamba environment and
 install `artbox` there.
 
 ```bash
-$ mamba create --name artbox "python>=3.8.1" pygobject pip
+$ mamba create --name artbox "python>=3.8.1,<3.12" pygobject pip
 $ conda activate artbox
 $ pip install artbox
 ```
