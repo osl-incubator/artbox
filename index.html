@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.4">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.6">
     
     
       
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              ArtBox
             
           </span>
         </div>
@@ -243,7 +243,7 @@
           
   
   <span class="md-ellipsis">
-    Home
+    ArtBox
   </span>
   
 
@@ -254,7 +254,7 @@
         
   
   <span class="md-ellipsis">
-    Home
+    ArtBox
   </span>
   
 
@@ -279,15 +279,6 @@
   <a href="#features" class="md-nav__link">
     <span class="md-ellipsis">
       Features
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#credits" class="md-nav__link">
-    <span class="md-ellipsis">
-      Credits
     </span>
   </a>
   
@@ -436,15 +427,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#credits" class="md-nav__link">
-    <span class="md-ellipsis">
-      Credits
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -463,42 +445,118 @@
   
 
 
-<p><img alt="LOGO" src="/images/logo.png" /></p>
 <h1 id="artbox">ArtBox</h1>
 <p>ArtBox is a tool set for handling multimedia files.</p>
-<h2 id="features">Features</h2>
 <ul>
-<li>
-<p>The security of our code: Bandit is a powerful tool that we use in our Python
-  project to ensure its security. This tool analyzes the code and detects
-  potential vulnerabilities. Some of the key features of Bandit are its ease of
-  use, its ability to integrate with other tools, and its support for multiple
-  Python versions. If you want to know about bandit you can check its
-  <a href="https://bandit.readthedocs.io/en/latest/">documentation</a>.</p>
-</li>
-<li>
-<p>Finds unused code: <a href="https://github.com/jendrikseipp/vulture">Vulture</a> is
-  useful for cleaning up and finding errors in large code bases in Python.</p>
-</li>
-<li>
-<p>Complexity of functions and modules: We use
-  <a href="https://github.com/PyCQA/mccabe">McCabe</a> to identify the complexity in our
-  Python code that may be difficult to maintain or understand. By identifying
-  complex code at the outset, we as developers can refactor it to make it easier
-  to maintain and understand. In summary, McCabe helps us to improve the quality
-  of our code and make it easier to maintain. If you would like to learn more
-  about McCabe and code complexity, you can visit
-  <a href="https://here-be-pythons.readthedocs.io/en/latest/python/mccabe.html">McCabe - Code Complexity Checker</a>.
-  This tool is included with <a href="https://flake8.pycqa.org/en/latest/">Flake8</a>.</p>
-</li>
-<li>
-<p>TODO</p>
-</li>
+<li>Documentation: <a href="https://ggpedia.games">https://ggpedia.games</a></li>
+<li>License: BSD-3 Clause</li>
 </ul>
-<h2 id="credits">Credits</h2>
-<p>This package was created with Cookieninja and the
-<a href="https://github.com/osl-incubator/scicookie">osl-incubator/scicookie</a> project
-template.</p>
+<h2 id="features">Features</h2>
+<p>TBD</p>
+<h1 id="setup">Setup</h1>
+<p>ArtBox uses some dependencies that maybe would not work well in your machine. In
+order to have everything well installed, create a conda/mamba environment and
+install <code>artbox</code> there.</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>mamba<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>artbox<span class="w"> </span><span class="s2">&quot;python&gt;=3.8.1,&lt;3.12&quot;</span><span class="w"> </span>pygobject<span class="w"> </span>pip
+$<span class="w"> </span>conda<span class="w"> </span>activate<span class="w"> </span>artbox
+$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>artbox
+</code></pre></div>
+<h2 id="examples">Examples</h2>
+<p>For the following examples, create the a temporary folder for artbox:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>mkdir<span class="w"> </span>/tmp/artbox
+</code></pre></div>
+<h3 id="convert-text-to-audio">Convert text to audio</h3>
+<p>By default, the <code>artbox voice</code> uses
+<a href="https://pypi.org/project/edge-tts/"><code>edge-tts</code></a> engine, but if you can also
+specify <a href="https://github.com/pndurette/gTTS"><code>gtts</code></a> with the flag
+<code>--engine gtts</code>.</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Are you ready to join Link and Zelda in fighting off this unprecedented threat to Hyrule?&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/tmp/artbox/text.md
+$<span class="w"> </span>artbox<span class="w"> </span>voice<span class="w"> </span>text-to-speech<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--title<span class="w"> </span>artbox<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--text-path<span class="w"> </span>/tmp/artbox/text.md<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-path<span class="w"> </span>/tmp/artbox/voice.mp3<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--engine<span class="w"> </span>edge-tts
+</code></pre></div>
+<p>If you need to generate the audio for different language, you can use the flag
+<code>--lang</code>:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Bom dia, mundo!&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/tmp/artbox/text.md
+$<span class="w"> </span>artbox<span class="w"> </span>voice<span class="w"> </span>text-to-speech<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--title<span class="w"> </span>artbox<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--text-path<span class="w"> </span>/tmp/artbox/text.md<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-path<span class="w"> </span>/tmp/artbox/voice.mp3<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--lang<span class="w"> </span>pt
+</code></pre></div>
+<p>If you are using <code>edge-tts</code> engine (the default one), you can also specify the
+locale for that language, for example:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Are you ready to join Link and Zelda in fighting off this unprecedented threat to Hyrule?&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/tmp/artbox/text.md
+$<span class="w"> </span>artbox<span class="w"> </span>voice<span class="w"> </span>text-to-speech<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--title<span class="w"> </span>artbox<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--text-path<span class="w"> </span>/tmp/artbox/text.md<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-path<span class="w"> </span>/tmp/artbox/voice.mp3<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--engine<span class="w"> </span>edge-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--lang<span class="w"> </span>en-IN
+</code></pre></div>
+<h3 id="download-a-youtube-video">Download a youtube video</h3>
+<p>If you want to download videos from the youtube, you can use the following
+command:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>artbox<span class="w"> </span>youtube<span class="w"> </span>download<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--url<span class="w"> </span>https://www.youtube.com/watch?v<span class="o">=</span>zw47_q9wbBE<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-path<span class="w"> </span>/tmp/artbox/
+</code></pre></div>
+<p>The command above downloads using a random resolution. If you want a specific
+resolution, use the flat <code>--resolution</code>:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>artbox<span class="w"> </span>youtube<span class="w"> </span>download<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--url<span class="w"> </span>https://www.youtube.com/watch?v<span class="o">=</span>zw47_q9wbBE<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-path<span class="w"> </span>/tmp/artbox/<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--resolution<span class="w"> </span>360p
+</code></pre></div>
+<h3 id="create-a-song-based-on-the-musical-notes">Create a song based on the musical notes</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># json format</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;[&quot;E&quot;, &quot;D#&quot;, &quot;E&quot;, &quot;D#&quot;, &quot;E&quot;, &quot;B&quot;, &quot;D&quot;, &quot;C&quot;, &quot;A&quot;]&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>/tmp/artbox/notes.txt
+$<span class="w"> </span>artbox<span class="w"> </span>sound<span class="w"> </span>notes-to-audio<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--input-path<span class="w"> </span>/tmp/artbox/notes.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-path<span class="w"> </span>/tmp/artbox/music.mp3<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--duration<span class="w"> </span><span class="m">2</span>
+</code></pre></div>
+<h3 id="remove-the-audio-from-a-video">Remove the audio from a video</h3>
+<p>First, download the youtube video <code>https://www.youtube.com/watch?v=zw47_q9wbBE</code>
+as explained before.</p>
+<p>Next, run the following command:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>artbox<span class="w"> </span>video<span class="w"> </span>remove-audio<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--input-path<span class="w"> </span><span class="s2">&quot;/tmp/artbox/The Legend of Zelda Breath of the Wild - Nintendo Switch Presentation 2017 Trailer.mp4&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-path<span class="w"> </span>/tmp/artbox/botw.mp4
+</code></pre></div>
+<h3 id="extract-the-audio-from-a-video">Extract the audio from a video</h3>
+<p>First, download the youtube video <code>https://www.youtube.com/watch?v=zw47_q9wbBE</code>
+as explained before.</p>
+<p>Next, run the following command:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>artbox<span class="w"> </span>video<span class="w"> </span>extract-audio<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--input-path<span class="w"> </span><span class="s2">&quot;/tmp/artbox/The Legend of Zelda Breath of the Wild - Nintendo Switch Presentation 2017 Trailer.mp4&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-path<span class="w"> </span>/tmp/artbox/botw-audio.mp3
+</code></pre></div>
+<h3 id="combine-audio-and-video-files">Combine audio and video files</h3>
+<p>First, execute the previous steps:</p>
+<ul>
+<li>Download a youtube video</li>
+<li>Remove the audio from a video</li>
+<li>Extract the audio from a video</li>
+</ul>
+<p>Next, run the following command:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>artbox<span class="w"> </span>video<span class="w"> </span>combine-video-and-audio<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--video-path<span class="w"> </span>/tmp/artbox/botw.mp4<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--audio-path<span class="w"> </span>/tmp/artbox/botw-audio.mp3<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-path<span class="w"> </span>/tmp/artbox/botw-combined.mp4
+</code></pre></div>
+<h2 id="additional-dependencies">Additional dependencies</h2>
+<p>If you want to use Python to play your audio files, you can install <code>playsound</code>:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>pip<span class="w"> </span>wheel<span class="w"> </span>--use-pep517<span class="w"> </span><span class="s2">&quot;playsound (==1.3.0)&quot;</span>
+</code></pre></div>
+<h2 id="troubleshoot">Troubleshoot</h2>
+<p>After installing with <code>poetry install</code>:</p>
+<ul>
+<li>Patch <code>pytube</code> (ref: <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/pytube/pytube/issues/1773" title="GitHub Issue: pytube/pytube #1773">pytube/pytube#1773</a>):
+  <code>sed -i 's/(r"^$\\w+\\W")/(r"^\\w+\\W")/' $CONDA_PREFIX/lib/python3.*/site-packages/pytube/cipher.py</code></li>
+</ul>
 
 
 
@@ -577,10 +635,10 @@ template.</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": ".", "features": ["content.code.annotate", "content.tabs.link", "header.autohide", "navigation.indexes", "navigation.instant", "search.highlight", "search.share", "search.suggest"], "search": "assets/javascripts/workers/search.c011b7c0.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": ".", "features": ["content.code.annotate", "content.tabs.link", "header.autohide", "navigation.indexes", "navigation.instant", "search.highlight", "search.share", "search.suggest"], "search": "assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="assets/javascripts/bundle.7389ff0e.min.js"></script>
+      <script src="assets/javascripts/bundle.e1c3ead8.min.js"></script>
       
     
   </body>

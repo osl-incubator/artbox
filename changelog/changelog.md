@@ -1,6 +1,13 @@
 # Release Notes
 ---
 
+## [0.5.1](https://github.com/osl-incubator/artbox/compare/0.5.0...0.5.1) (2024-01-31)
+
+
+### Bug Fixes
+
+* Fix dependency issues ([#21](https://github.com/osl-incubator/artbox/issues/21)) ([43e5445](https://github.com/osl-incubator/artbox/commit/43e5445979bc93467dad8351dee47185af1e5a25))
+
 # [0.5.0](https://github.com/osl-incubator/artbox/compare/0.4.1...0.5.0) (2024-01-21)
 
 
