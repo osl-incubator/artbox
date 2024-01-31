@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "artbox"
-version = "0.5.2"  # semantic-release
+version = "0.5.3"  # semantic-release
 description = "ArtBox is a tool set for handling multimedia files."
 readme = "docs/index.md"
 authors = ["Ivan Ogasawara <ivan.ogasawara@gmail.com>"]
