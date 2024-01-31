@@ -1,6 +1,13 @@
 # Release Notes
 ---
 
+## [0.5.3](https://github.com/osl-incubator/artbox/compare/0.5.2...0.5.3) (2024-01-31)
+
+
+### Bug Fixes
+
+* **dependency:** Add typer as a direct dependency ([#23](https://github.com/osl-incubator/artbox/issues/23)) ([a2ea8ea](https://github.com/osl-incubator/artbox/commit/a2ea8ea09517e204fc51d998f9423551e6fede94))
+
 ## [0.5.2](https://github.com/osl-incubator/artbox/compare/0.5.1...0.5.2) (2024-01-31)
 
 
