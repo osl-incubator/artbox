@@ -1,6 +1,13 @@
 # Release Notes
 ---
 
+## [0.5.2](https://github.com/osl-incubator/artbox/compare/0.5.1...0.5.2) (2024-01-31)
+
+
+### Bug Fixes
+
+* **dependencies:** Add numpy as direct dependence ([#22](https://github.com/osl-incubator/artbox/issues/22)) ([abd050c](https://github.com/osl-incubator/artbox/commit/abd050ca9b8b9bc29495dc8c3ac266a55d923130))
+
 ## [0.5.1](https://github.com/osl-incubator/artbox/compare/0.5.0...0.5.1) (2024-01-31)
 
 
