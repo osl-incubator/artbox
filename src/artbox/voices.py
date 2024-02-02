@@ -79,6 +79,9 @@ class VoiceEngineMSEdgeTTS(VoiceEngineBase):
         title: str = self.args.get("title", "")
         text_path: str = self.args.get("text-path", "")
         lang: str = self.args.get("lang", "en")
+        rate = self.args.get("rate", "+0%")
+        volume = self.args.get("volume", "+0%")
+        pitch = self.args.get("pitch", "+0Hz")
 
         if not title:
             raise Exception("Argument `title` not given")
@@ -96,8 +99,9 @@ class VoiceEngineMSEdgeTTS(VoiceEngineBase):
         communicate = edge_tts.Communicate(
             text=text,
             voice=random.choice(voice_options)["Name"],
-            rate="+5%",
-            volume="+0%",
+            rate=rate,
+            volume=volume,
+            pitch=pitch,
         )
         with open(self.output_path, "wb") as file:
             async for chunk in communicate.stream():

@@ -70,6 +70,22 @@ $ artbox voice text-to-speech \
     --lang en-IN
 ```
 
+Additionally, if you are using edge-tts, you can specify `--rate`, `--volume`,
+and `--pitch`, for example:
+
+```bash
+$ echo "Do you want some coffee?" > /tmp/artbox/text.md
+$ artbox voice text-to-speech \
+    --title artbox \
+    --text-path /tmp/artbox/text.md \
+    --output-path /tmp/artbox/voice.mp3 \
+    --engine edge-tts \
+    --lang en \
+    --rate +10% \
+    --volume -10% \
+    --pitch -5Hz
+```
+
 ### Download a youtube video
 
 If you want to download videos from the youtube, you can use the following

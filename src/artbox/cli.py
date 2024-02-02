@@ -66,7 +66,7 @@ def main(
 
 
 @app_voice.command("text-to-speech")
-def text_to_speech(
+def voice_text_to_speech(
     title: Annotated[
         str, typer.Option("--title", help="Specify the name of the audio file")
     ] = "artbox",
@@ -93,6 +93,18 @@ def text_to_speech(
             "--lang", help="Choose the language for audio generation"
         ),
     ] = "en",
+    rate: Annotated[
+        str,
+        typer.Option("--rate", help="Decrease/Increase the rate level"),
+    ] = "+0%",
+    volume: Annotated[
+        str,
+        typer.Option("--volume", help="Decrease/Increase the volume level"),
+    ] = "+0%",
+    pitch: Annotated[
+        str,
+        typer.Option("--pitch", help="Decrease/Increase the pitch level"),
+    ] = "+0Hz",
 ) -> None:
     """Convert text to speech."""
     args_dict = {
@@ -101,6 +113,9 @@ def text_to_speech(
         "output-path": output_path,
         "engine": engine,
         "lang": lang,
+        "rate": rate,
+        "volume": volume,
+        "pitch": pitch,
     }
 
     runner = Voice(args_dict)
@@ -108,7 +123,7 @@ def text_to_speech(
 
 
 @app_sound.command("notes-to-audio")
-def notes_to_audio(
+def sound_notes_to_audio(
     input_path: Annotated[
         str,
         typer.Option(
@@ -138,7 +153,7 @@ def notes_to_audio(
 
 
 @app_video.command("remove-audio")
-def remove_audio(
+def video_remove_audio(
     input_path: Annotated[
         str,
         typer.Option(
@@ -163,7 +178,7 @@ def remove_audio(
 
 
 @app_video.command("extract-audio")
-def extract_audio(
+def video_extract_audio(
     input_path: Annotated[
         str,
         typer.Option(
@@ -189,7 +204,7 @@ def extract_audio(
 
 
 @app_video.command("combine-video-and-audio")
-def combine_audio_and_video(
+def video_combine_audio_and_video(
     video_path: Annotated[
         str,
         typer.Option(
@@ -222,7 +237,7 @@ def combine_audio_and_video(
 
 
 @app_youtube.command("download")
-def download_youtube_video(
+def youtube_download(
     url: Annotated[
         str,
         typer.Option(
@@ -252,3 +267,42 @@ def download_youtube_video(
 
     runner = Youtube(args_dict)
     runner.download()
+
+
+@app_youtube.command("cc")
+def youtube_cc(
+    url: Annotated[
+        str,
+        typer.Option(
+            "--url", help="Specify the URL of the YouTube video to download"
+        ),
+    ] = "",
+    output_path: Annotated[
+        str,
+        typer.Option(
+            "--output-path",
+            help=(
+                "Specify the path to store the downloaded video file "
+                "(.srt, .txt)"
+            ),
+        ),
+    ] = "/tmp/cc.txt",
+    lang: Annotated[
+        str,
+        typer.Option("--lang", help="Set the CC language to be downloaded"),
+    ] = "en",
+    format: Annotated[
+        str,
+        typer.Option("--format", help="Set the CC format (srt, text)"),
+    ] = "text",
+) -> None:
+    """Download youtube video CC."""
+    args_dict = {
+        "url": url,
+        "output-path": output_path,
+        "lang": lang,
+        "format": format,
+    }
+
+    runner = Youtube(args_dict)
+    runner.download_captions()
