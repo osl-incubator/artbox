@@ -496,6 +496,19 @@ $<span class="w"> </span>artbox<span class="w"> </span>voice<span class="w"> </s
 <span class="w">    </span>--engine<span class="w"> </span>edge-tts<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--lang<span class="w"> </span>en-IN
 </code></pre></div>
+<p>Additionally, if you are using edge-tts, you can specify <code>--rate</code>, <code>--volume</code>,
+and <code>--pitch</code>, for example:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Do you want some coffee?&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/tmp/artbox/text.md
+$<span class="w"> </span>artbox<span class="w"> </span>voice<span class="w"> </span>text-to-speech<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--title<span class="w"> </span>artbox<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--text-path<span class="w"> </span>/tmp/artbox/text.md<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-path<span class="w"> </span>/tmp/artbox/voice.mp3<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--engine<span class="w"> </span>edge-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--lang<span class="w"> </span>en<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--rate<span class="w"> </span>+10%<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--volume<span class="w"> </span>-10%<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--pitch<span class="w"> </span>-5Hz
+</code></pre></div>
 <h3 id="download-a-youtube-video">Download a youtube video</h3>
 <p>If you want to download videos from the youtube, you can use the following
 command:</p>

@@ -1,6 +1,13 @@
 # Release Notes
 ---
 
+# [0.6.0](https://github.com/osl-incubator/artbox/compare/0.5.3...0.6.0) (2024-02-02)
+
+
+### Features
+
+* Extract CC from youtube video ([#24](https://github.com/osl-incubator/artbox/issues/24)) ([37711f2](https://github.com/osl-incubator/artbox/commit/37711f24be3158c6df7f0f353def8fb8f41aa261))
+
 ## [0.5.3](https://github.com/osl-incubator/artbox/compare/0.5.2...0.5.3) (2024-01-31)
 
 
