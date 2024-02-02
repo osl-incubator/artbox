@@ -6,7 +6,7 @@ ref: https://github.com/ethand91/python-youtube/blob/master/main.py
 from abc import abstractmethod
 
 from moviepy.editor import AudioFileClip, VideoFileClip
-from pytube import YouTube as PyYouTube
+from pytubefix import YouTube as PyYouTube
 
 from artbox.base import ArtBox
 
@@ -18,6 +18,27 @@ class DownloadBase(ArtBox):
     def download(self):
         """Download a video."""
         ...
+
+
+def _convert_srt_to_plain_text(srt_text: str) -> str:
+    """
+    Convert an SRT file to plain text by removing timestamps and formatting.
+
+    Parameters
+    ----------
+    srt_file_path (str): Path to the SRT file.
+
+    Returns
+    -------
+    str: The extracted plain text from the SRT file.
+    """
+    plain_text = []
+    # Skip lines that are part of SRT formatting (timestamps, etc.)
+    for line in srt_text.split("\n"):
+        if line.strip() and not line.strip().isdigit() and "-->" not in line:
+            plain_text.append(line.strip())
+
+    return "\n".join(plain_text)
 
 
 class Youtube(DownloadBase):
@@ -51,6 +72,27 @@ class Youtube(DownloadBase):
             print("Video was downloaded successfully")
         except Exception as e:
             print(f"Failed to download video: {e}")
+
+    def download_captions(self):
+        """Download the English closed captions of a YouTube video."""
+        video_url = self.args.get("url", "")
+        lang = self.args.get("lang", "en")
+        format = self.args.get("format", "text")
+
+        yt = PyYouTube(video_url)
+        caption = yt.captions.get_by_language_code(f"a.{lang}")
+
+        if not caption:
+            print(f"No captions found for language {lang}.")
+            return
+
+        # Save the captions to a file
+        cc = caption.generate_srt_captions()
+        with open(str(self.output_path), "w") as f:
+            if format == "text":
+                cc = _convert_srt_to_plain_text(cc)
+            f.write(cc)
+        print("Captions downloaded successfully.")
 
 
 class Video(ArtBox):
