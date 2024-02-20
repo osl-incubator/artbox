@@ -5,8 +5,8 @@ from typing_extensions import Annotated
 
 from artbox import __version__
 from artbox.sounds import Sound
+from artbox.speech import Speech
 from artbox.videos import Video, Youtube
-from artbox.voices import Voice
 
 app = typer.Typer(
     name="Artbox",
@@ -28,9 +28,9 @@ app_video = typer.Typer(
     short_help="Video processing commands.",
 )
 app_voice = typer.Typer(
-    name="voice",
-    help="Voice processing commands for Artbox.",
-    short_help="Voice processing commands.",
+    name="speech",
+    help="Speech processing commands for Artbox.",
+    short_help="Speech processing commands.",
 )
 app_youtube = typer.Typer(
     name="youtube",
@@ -40,7 +40,7 @@ app_youtube = typer.Typer(
 
 app.add_typer(app_sound, name="sound")
 app.add_typer(app_video, name="video")
-app.add_typer(app_voice, name="voice")
+app.add_typer(app_voice, name="speech")
 app.add_typer(app_youtube, name="youtube")
 
 
@@ -118,7 +118,7 @@ def voice_text_to_speech(
         "pitch": pitch,
     }
 
-    runner = Voice(args_dict)
+    runner = Speech(args_dict)
     runner.text_to_speech()
 
 

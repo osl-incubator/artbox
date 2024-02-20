@@ -58,7 +58,7 @@
 
 ### Features
 
-- Add engine options for Voice class. ([#6](https://github.com/ggpedia/artbox/issues/6)) ([d4381f7](https://github.com/ggpedia/artbox/commit/d4381f781a98ffb51fb103d671c5a9115bb3f6d1))
+- Add engine options for Speech class. ([#6](https://github.com/ggpedia/artbox/issues/6)) ([d4381f7](https://github.com/ggpedia/artbox/commit/d4381f781a98ffb51fb103d671c5a9115bb3f6d1))
 
 # [0.2.0](https://github.com/ggpedia/artbox/compare/0.1.0...0.2.0) (2023-08-29)
 
@@ -69,4 +69,4 @@
 
 ### Features
 
-- Add the flag `--lang` for the voice command ([#2](https://github.com/ggpedia/artbox/issues/2)) ([cb937e9](https://github.com/ggpedia/artbox/commit/cb937e9e7a9de5a19b3dc4dc8d34f6daf4ba6304))
+- Add the flag `--lang` for the speech command ([#2](https://github.com/ggpedia/artbox/issues/2)) ([cb937e9](https://github.com/ggpedia/artbox/commit/cb937e9e7a9de5a19b3dc4dc8d34f6daf4ba6304))
