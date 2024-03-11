@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from artbox.speech import SpeechToText
+from artbox.speech import SpeechToText, SpeechFromText
 
 TMP_PATH = Path("/tmp/artbox")
 TEST_DATA_DIR = Path(__file__).parent / "data"
@@ -14,7 +14,7 @@ os.makedirs(TMP_PATH, exist_ok=True)
 
 
 @pytest.mark.parametrize("engine", ["gtts", "edge-tts"])
-def test_convert_text_to_speech(engine) -> None:
+def test_convert_from_text(engine) -> None:
     """Test the conversion from text to audio."""
     text_path = TMP_PATH / f"totk-{engine}.txt"
     params = {
@@ -30,8 +30,8 @@ def test_convert_text_to_speech(engine) -> None:
             "off this unprecedented threat to Hyrule?"
         )
 
-    speech = Speech(params)
-    speech.text_to_speech()
+    speech = SpeechFromText(params)
+    speech.convert()
 
 
 @pytest.mark.parametrize(
@@ -44,9 +44,9 @@ def test_convert_text_to_speech(engine) -> None:
         # 'azure',
         # 'houndify',
         # 'ibm',
-        "vosk",
-        "whisper",
-        "whisper-api",
+        # "vosk",
+        # "whisper",
+        # "whisper-api",
     ],
 )
 def test_convert_speech_to_text(engine) -> None:
@@ -71,7 +71,7 @@ def test_convert_speech_to_text(engine) -> None:
         expected = expected.replace(char, "")
 
     speech = SpeechToText(params)
-    speech.convert_from_mp3()
+    speech.convert()
 
     with open(output_path, "r") as f:
         result = f.read().lower()

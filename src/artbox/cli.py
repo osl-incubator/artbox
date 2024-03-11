@@ -5,7 +5,7 @@ from typing_extensions import Annotated
 
 from artbox import __version__
 from artbox.sounds import Sound
-from artbox.speech import Speech
+from artbox.speech import SpeechFromText, SpeechToText
 from artbox.videos import Video, Youtube
 
 app = typer.Typer(
@@ -27,7 +27,7 @@ app_video = typer.Typer(
     help="Video processing commands for Artbox.",
     short_help="Video processing commands.",
 )
-app_voice = typer.Typer(
+app_speech = typer.Typer(
     name="speech",
     help="Speech processing commands for Artbox.",
     short_help="Speech processing commands.",
@@ -40,7 +40,7 @@ app_youtube = typer.Typer(
 
 app.add_typer(app_sound, name="sound")
 app.add_typer(app_video, name="video")
-app.add_typer(app_voice, name="speech")
+app.add_typer(app_speech, name="speech")
 app.add_typer(app_youtube, name="youtube")
 
 
@@ -65,14 +65,16 @@ def main(
         raise typer.Exit(0)
 
 
-@app_voice.command("text-to-speech")
-def voice_text_to_speech(
+@app_speech.command("from-text")
+def speech_from_text(
     title: Annotated[
         str, typer.Option("--title", help="Specify the name of the audio file")
     ] = "artbox",
-    text_path: Annotated[
+    input_path: Annotated[
         str,
-        typer.Option("--text-path", help="Specify the path of the text file"),
+        typer.Option(
+            "--input-path", help="Specify the path of the text file (txt)"
+        ),
     ] = "",
     output_path: Annotated[
         str,
@@ -109,7 +111,7 @@ def voice_text_to_speech(
     """Convert text to speech."""
     args_dict = {
         "title": title,
-        "text-path": text_path,
+        "input-path": input_path,
         "output-path": output_path,
         "engine": engine,
         "lang": lang,
@@ -118,8 +120,49 @@ def voice_text_to_speech(
         "pitch": pitch,
     }
 
-    runner = Speech(args_dict)
-    runner.text_to_speech()
+    runner = SpeechFromText(args_dict)
+    runner.convert()
+
+
+@app_speech.command("to-text")
+def speech_to_text(
+    input_path: Annotated[
+        str,
+        typer.Option(
+            "--input-path",
+            help="Specify the path of the audio file (mp3 or wav)",
+        ),
+    ] = "",
+    output_path: Annotated[
+        str,
+        typer.Option(
+            "--output-path", help="Specify the path to store the text file"
+        ),
+    ] = "",
+    engine: Annotated[
+        str,
+        typer.Option(
+            "--engine",
+            help="Choose the text-to-speech engine (Options: google)",
+        ),
+    ] = "google",
+    lang: Annotated[
+        str,
+        typer.Option(
+            "--lang", help="Choose the language for audio generation"
+        ),
+    ] = "en",
+) -> None:
+    """Convert text to speech."""
+    args_dict = {
+        "input-path": input_path,
+        "output-path": output_path,
+        "engine": engine,
+        "lang": lang,
+    }
+
+    runner = SpeechToText(args_dict)
+    runner.convert()
 
 
 @app_sound.command("notes-to-audio")

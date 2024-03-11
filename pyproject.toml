@@ -31,7 +31,7 @@ gtts = ">=2.3.2"
 edge-tts = ">=6.1.8"
 numpy = ">=1.20"
 typer = ">=0.9.0"
-pytubefix = ">=1.13.3"
+pytubefix = ">=2"
 speechrecognition = ">=3.10"
 vosk = ">=0.3.45"
 google-cloud-speech = ">=2.24.1"
@@ -117,5 +117,6 @@ module = [
   "pydub",
   "pydub.generators",
   "pytubefix",
+  "speech_recognition",
 ]
 ignore_missing_imports = true

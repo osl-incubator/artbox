@@ -7,7 +7,7 @@ import asyncio
 import os
 import random
 
-from abc import ABC, abstractmethod
+from abc import ABC
 from pathlib import Path
 
 import edge_tts
@@ -20,19 +20,28 @@ from pydub import AudioSegment
 from artbox.base import ArtBox
 
 
-class SpeechEngineBase(ArtBox, ABC):
+def convert_mp3_to_wav(input_path: str, output_path: str) -> None:
+    """Convert from mp3 to wav."""
+    sound = AudioSegment.from_mp3(input_path)
+    sound.export(output_path, format="wav")
+
+
+class Speech(ArtBox, ABC):
     """Set of methods for handing audio voices."""
 
-    @abstractmethod
-    def text_to_speech(self) -> None:
+
+class SpeechFromTextEngineBase(Speech):
+    """Set of methods for handing audio voices."""
+
+    def convert(self) -> None:
         """Convert text to audio speech."""
         ...
 
 
-class Speech(SpeechEngineBase):
+class SpeechFromText(Speech):
     """Speech class will run commands according to the selected engine."""
 
-    engine: SpeechEngineBase
+    engine: SpeechFromTextEngineBase
 
     def __init__(self, *args, **kwargs) -> None:
         """Initialize Speech class."""
@@ -40,23 +49,25 @@ class Speech(SpeechEngineBase):
         engine = self.args.get("engine", "edge-tts")
 
         if engine == "edge-tts":
-            self.engine: SpeechEngineBase = SpeechEngineMSEdgeTTS(
+            self.engine: SpeechFromTextEngineBase = SpeechEngineMSEdgeTTS(
                 *args, **kwargs
             )
         elif engine == "gtts":
-            self.engine: SpeechEngineBase = SpeechEngineGTTS(*args, **kwargs)
+            self.engine: SpeechFromTextEngineBase = SpeechEngineGTTS(
+                *args, **kwargs
+            )
         else:
             raise Exception(f"Engine {engine} not found.")
 
-    def text_to_speech(self) -> None:
+    def convert(self) -> None:
         """Convert text to audio speech."""
-        return self.engine.text_to_speech()
+        return self.engine.convert()
 
 
-class SpeechEngineGTTS(SpeechEngineBase):
+class SpeechEngineGTTS(SpeechFromTextEngineBase):
     """Google-Text-To-Speech engine."""
 
-    def text_to_speech(self) -> None:
+    def convert(self) -> None:
         """Convert text to audio speech."""
         title: str = self.args.get("title", "")
         text_path: str = self.args.get("text-path", "")
@@ -75,13 +86,13 @@ class SpeechEngineGTTS(SpeechEngineBase):
         tts.save(str(self.output_path))
 
 
-class SpeechEngineMSEdgeTTS(SpeechEngineBase):
+class SpeechEngineMSEdgeTTS(SpeechFromTextEngineBase):
     """Microsoft Edge Text-To-Speech engine."""
 
-    async def async_text_to_speech(self) -> None:
+    async def async_convert(self) -> None:
         """Convert text to audio speech in async mode."""
         title: str = self.args.get("title", "")
-        text_path: str = self.args.get("text-path", "")
+        text_path: str = self.args.get("input-path", "")
         lang: str = self.args.get("lang", "en")
         rate = self.args.get("rate", "+0%")
         volume = self.args.get("volume", "+0%")
@@ -102,7 +113,7 @@ class SpeechEngineMSEdgeTTS(SpeechEngineBase):
 
         communicate = edge_tts.Communicate(
             text=text,
-            speech=random.choice(voice_options)["Name"],
+            voice=random.choice(voice_options)["Name"],
             rate=rate,
             volume=volume,
             pitch=pitch,
@@ -114,30 +125,43 @@ class SpeechEngineMSEdgeTTS(SpeechEngineBase):
                 elif chunk["type"] == "WordBoundary":
                     print(f"WordBoundary: {chunk}")
 
-    def text_to_speech(self) -> None:
+    def convert(self) -> None:
         """Convert text to audio speech."""
         loop = asyncio.get_event_loop_policy().get_event_loop()
         try:
-            loop.run_until_complete(self.async_text_to_speech())
+            loop.run_until_complete(self.async_convert())
         finally:
             loop.close()
 
 
-def convert_mp3_to_wav(input_path: str, output_path: str) -> None:
-    sound = AudioSegment.from_mp3(input_path)
-    sound.export(output_path, format="wav")
+class SpeechToText(Speech):
+    """Speech to Text class."""
 
+    def convert(self) -> None:
+        """Recognize speech from MP# using various engines options."""
+        file_path: str = str(self.input_path)
 
-class SpeechToText(ArtBox):
+        if file_path.endswith("mp3"):
+            self.convert_from_mp3()
+            return
+
+        if file_path.endswith("wav"):
+            self.convert_from_wav()
+            return
+
+        raise Exception(
+            "The file format is not valid. Valid types are mp3 and wav."
+        )
+
     def convert_from_mp3(self) -> None:
         """Recognize speech from MP# using various engines options."""
         file_path: Path = self.input_path
 
         # Convert MP3 to WAV
         wav_path = str(file_path).replace(".mp3", ".wav")
-        convert_mp3_to_wav(file_path, wav_path)
+        convert_mp3_to_wav(str(file_path), wav_path)
 
-        self.input_path = wav_path
+        self.input_path = Path(wav_path)
         self.convert_from_wav()
 
         # Cleanup: Remove the WAV file
@@ -145,8 +169,8 @@ class SpeechToText(ArtBox):
 
     def convert_from_wav(self) -> None:
         """Recognize speech from WAVE using various engines options."""
-        wav_path: str = self.input_path
-        output_path: str = self.output_path
+        wav_path: str = str(self.input_path)
+        output_path: str = str(self.output_path)
         language: str = self.args.get("lang", "en-US")
         engine: str = self.args.get("engine", "google")
 
