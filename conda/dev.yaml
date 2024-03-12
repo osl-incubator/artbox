@@ -3,11 +3,14 @@ channels:
   - nodefaults
   - conda-forge
 dependencies:
-  - pygobject
+  # not available yet on conda-forge
+  # - pygobject 3.48.1
   - python >=3.8.1,<3.12
+  - pycairo >=1.16
   - pip
   - poetry
   - nodejs # used by semantic-release
   - shellcheck
   - pip:
+      - pygobject==3.48.1
       - paginate
