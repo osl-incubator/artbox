@@ -31,7 +31,10 @@ gtts = ">=2.3.2"
 edge-tts = ">=6.1.8"
 numpy = ">=1.20"
 typer = ">=0.9.0"
-pytubefix = ">=1.13.3"
+pytubefix = ">=2"
+speechrecognition = ">=3.10"
+vosk = ">=0.3.45"
+google-cloud-speech = ">=2.24.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = ">=7.3.2"
@@ -54,7 +57,7 @@ mkdocs-material = ">=9.1.15"
 mkdocstrings = ">=0.21.2"
 mkdocstrings-python = ">=1.1.2"
 jupyterlab = ">=4.0.5"
-makim = "1.12.0"
+makim = "1.13.0"
 
 [tool.pytest.ini_options]
 testpaths = [
@@ -75,10 +78,12 @@ verbose = false
 line-length = 79
 force-exclude = true
 src = ["./"]
-ignore = ["PLR0913"]
 exclude = [
   'docs',
 ]
+fix = true
+
+[tool.ruff.lint]
 select = [
   "E",   # pycodestyle
   "F",   # pyflakes
@@ -88,12 +93,12 @@ select = [
   "RUF", # Ruff-specific rules
   "I001", # isort
 ]
-fix = true
+ignore = ["PLR0913"]
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "numpy"
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 # Use a single line between direct and from import
 lines-between-types = 1
 
@@ -114,5 +119,6 @@ module = [
   "pydub",
   "pydub.generators",
   "pytubefix",
+  "speech_recognition",
 ]
 ignore_missing_imports = true

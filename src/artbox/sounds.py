@@ -1,4 +1,5 @@
 """A set of methods and classes for handing and creating sounds."""
+
 import json
 
 from math import log2

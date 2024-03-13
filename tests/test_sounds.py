@@ -1,4 +1,5 @@
 """Set of tests for the sounds module."""
+
 import os
 import unittest
 
