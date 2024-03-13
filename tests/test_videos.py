@@ -1,4 +1,5 @@
 """Set of tests for the videos module."""
+
 import os
 
 from pathlib import Path

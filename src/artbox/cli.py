@@ -1,4 +1,5 @@
 """Cli functions to define the arguments and to call Makim."""
+
 import typer
 
 from typing_extensions import Annotated
