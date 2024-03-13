@@ -1,4 +1,5 @@
 """Set of tests for the voices module."""
+
 import os
 
 from pathlib import Path
@@ -16,15 +17,15 @@ os.makedirs(TMP_PATH, exist_ok=True)
 @pytest.mark.parametrize("engine", ["gtts", "edge-tts"])
 def test_convert_from_text(engine) -> None:
     """Test the conversion from text to audio."""
-    text_path = TMP_PATH / f"totk-{engine}.txt"
+    input_path = TMP_PATH / f"totk-{engine}.txt"
     params = {
         "title": "totk",
-        "text-path": str(text_path),
+        "input-path": str(input_path),
         "output-path": str(TMP_PATH / f"speech-{engine}.mp3"),
         "engine": engine,
     }
 
-    with open(text_path, "w") as f:
+    with open(input_path, "w") as f:
         f.write(
             "Are you ready to join Link and Zelda in fighting "
             "off this unprecedented threat to Hyrule?"

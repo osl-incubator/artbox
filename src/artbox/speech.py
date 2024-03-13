@@ -3,6 +3,7 @@ Utilities for handling audio voices.
 
 ref: https://thepythoncode.com/article/convert-text-to-speech-in-python
 """
+
 import asyncio
 import os
 import random
@@ -70,16 +71,16 @@ class SpeechEngineGTTS(SpeechFromTextEngineBase):
     def convert(self) -> None:
         """Convert text to audio speech."""
         title: str = self.args.get("title", "")
-        text_path: str = self.args.get("text-path", "")
+        input_path: str = self.args.get("input-path", "")
         lang: str = self.args.get("lang", "en")
 
         if not title:
             raise Exception("Argument `title` not given")
 
-        if not text_path:
-            raise Exception("Argument `text_path` not given")
+        if not input_path:
+            raise Exception("Argument `input_path` not given")
 
-        with open(text_path, "r") as f:
+        with open(input_path, "r") as f:
             text = f.read()
 
         tts = gtts.gTTS(text, lang=lang, slow=False)
@@ -92,7 +93,7 @@ class SpeechEngineMSEdgeTTS(SpeechFromTextEngineBase):
     async def async_convert(self) -> None:
         """Convert text to audio speech in async mode."""
         title: str = self.args.get("title", "")
-        text_path: str = self.args.get("input-path", "")
+        input_path: str = self.args.get("input-path", "")
         lang: str = self.args.get("lang", "en")
         rate = self.args.get("rate", "+0%")
         volume = self.args.get("volume", "+0%")
@@ -101,10 +102,10 @@ class SpeechEngineMSEdgeTTS(SpeechFromTextEngineBase):
         if not title:
             raise Exception("Argument `title` not given")
 
-        if not text_path:
-            raise Exception("Argument `text_path` not given")
+        if not input_path:
+            raise Exception("Argument `input_path` not given")
 
-        with open(text_path, "r") as f:
+        with open(input_path, "r") as f:
             text = f.read()
 
         params = {"Locale": lang} if "-" in lang else {"Language": lang}

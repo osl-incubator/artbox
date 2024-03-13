@@ -40,7 +40,7 @@ specify [`gtts`](https://github.com/pndurette/gTTS) with the flag
 $ echo "Are you ready to join Link and Zelda in fighting off this unprecedented threat to Hyrule?" > /tmp/artbox/text.md
 $ artbox speech text-to-speech \
     --title artbox \
-    --text-path /tmp/artbox/text.md \
+    --input-path /tmp/artbox/text.md \
     --output-path /tmp/artbox/speech.mp3 \
     --engine edge-tts
 ```
@@ -52,7 +52,7 @@ If you need to generate the audio for different language, you can use the flag
 $ echo "Bom dia, mundo!" > /tmp/artbox/text.md
 $ artbox speech text-to-speech \
     --title artbox \
-    --text-path /tmp/artbox/text.md \
+    --input-path /tmp/artbox/text.md \
     --output-path /tmp/artbox/speech.mp3 \
     --lang pt
 ```
@@ -64,7 +64,7 @@ locale for that language, for example:
 $ echo "Are you ready to join Link and Zelda in fighting off this unprecedented threat to Hyrule?" > /tmp/artbox/text.md
 $ artbox speech text-to-speech \
     --title artbox \
-    --text-path /tmp/artbox/text.md \
+    --input-path /tmp/artbox/text.md \
     --output-path /tmp/artbox/speech.mp3 \
     --engine edge-tts \
     --lang en-IN
@@ -77,7 +77,7 @@ and `--pitch`, for example:
 $ echo "Do you want some coffee?" > /tmp/artbox/text.md
 $ artbox speech text-to-speech \
     --title artbox \
-    --text-path /tmp/artbox/text.md \
+    --input-path /tmp/artbox/text.md \
     --output-path /tmp/artbox/speech.mp3 \
     --engine edge-tts \
     --lang en \

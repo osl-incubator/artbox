@@ -2283,23 +2283,24 @@ files = [
 
 [[package]]
 name = "makim"
-version = "1.12.0"
+version = "1.13.0"
 description = "Simplify the usage of containers"
 optional = false
 python-versions = ">=3.8.1,<4"
 files = [
-    {file = "makim-1.12.0-py3-none-any.whl", hash = "sha256:f62b76169657f25a7bbd101e8cf82c877f86657a876547c87ceaeea31de56052"},
-    {file = "makim-1.12.0.tar.gz", hash = "sha256:cfd7bd4da0dbabc160d1a9fbe5774c2e01359db02bfb55b659bf3bcd867db0d2"},
+    {file = "makim-1.13.0-py3-none-any.whl", hash = "sha256:60eb7dadadd468a9318a2b72180039372ace0754ecf1d7918a43a7bf01efe788"},
+    {file = "makim-1.13.0.tar.gz", hash = "sha256:4a21ef7a38a171b5cfb3e3cef4db3d7fabf6cf16e3c6375fc189f91f2d962489"},
 ]
 
 [package.dependencies]
-colorama = ">=0.4.6"
 fuzzywuzzy = ">=0.18.0"
 jinja2 = ">=2.0"
 python-dotenv = ">=0.21.1"
 python-levenshtein = ">=0.23.0"
 pyyaml = ">=5.0"
+rich = ">=13.7.0"
 sh = ">=2.0.0"
+shellingham = ">=1.5.4"
 typer = ">=0.9.0"
 xonsh = ">=0.14.0"
 
@@ -4784,6 +4785,17 @@ files = [
 ]
 
 [[package]]
+name = "shellingham"
+version = "1.5.4"
+description = "Tool to Detect Surrounding Shell"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "shellingham-1.5.4-py2.py3-none-any.whl", hash = "sha256:7ecfff8f2fd72616f7481040475a65b2bf8af90a56c89140852d1120324e8686"},
+    {file = "shellingham-1.5.4.tar.gz", hash = "sha256:8dbca0739d487e5bd35ab3ca4b36e11c4078f3a234bfce294b0a0291363404de"},
+]
+
+[[package]]
 name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
@@ -5551,4 +5563,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">3.8.1,<3.12"
-content-hash = "ca2b60a831602815a181a58260caa225c2e7b4aa7fe118b25416df4154d6df71"
+content-hash = "488a94a4eec3c4897768cb0a9b1d34bc8a67526cf9b50ac1502455a761239252"

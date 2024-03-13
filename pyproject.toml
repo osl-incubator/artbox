@@ -57,7 +57,7 @@ mkdocs-material = ">=9.1.15"
 mkdocstrings = ">=0.21.2"
 mkdocstrings-python = ">=1.1.2"
 jupyterlab = ">=4.0.5"
-makim = "1.12.0"
+makim = "1.13.0"
 
 [tool.pytest.ini_options]
 testpaths = [
@@ -78,10 +78,12 @@ verbose = false
 line-length = 79
 force-exclude = true
 src = ["./"]
-ignore = ["PLR0913"]
 exclude = [
   'docs',
 ]
+fix = true
+
+[tool.ruff.lint]
 select = [
   "E",   # pycodestyle
   "F",   # pyflakes
@@ -91,12 +93,12 @@ select = [
   "RUF", # Ruff-specific rules
   "I001", # isort
 ]
-fix = true
+ignore = ["PLR0913"]
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "numpy"
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 # Use a single line between direct and from import
 lines-between-types = 1
 
