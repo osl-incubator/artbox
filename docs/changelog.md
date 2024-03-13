@@ -1,6 +1,13 @@
 # Release Notes
 ---
 
+# [0.7.0](https://github.com/osl-incubator/artbox/compare/0.6.0...0.7.0) (2024-03-13)
+
+
+### Features
+
+* Add Speech to Text feature ([#25](https://github.com/osl-incubator/artbox/issues/25)) ([122dc7c](https://github.com/osl-incubator/artbox/commit/122dc7c76b4df09abcf9006fc13c07d40fe35178))
+
 # [0.6.0](https://github.com/osl-incubator/artbox/compare/0.5.3...0.6.0) (2024-02-02)
 
 
