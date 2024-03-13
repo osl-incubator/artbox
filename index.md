@@ -31,17 +31,17 @@ $ mkdir /tmp/artbox
 
 ### Convert text to audio
 
-By default, the `artbox voice` uses
+By default, the `artbox speech` uses
 [`edge-tts`](https://pypi.org/project/edge-tts/) engine, but if you can also
 specify [`gtts`](https://github.com/pndurette/gTTS) with the flag
 `--engine gtts`.
 
 ```bash
 $ echo "Are you ready to join Link and Zelda in fighting off this unprecedented threat to Hyrule?" > /tmp/artbox/text.md
-$ artbox voice text-to-speech \
+$ artbox speech text-to-speech \
     --title artbox \
-    --text-path /tmp/artbox/text.md \
-    --output-path /tmp/artbox/voice.mp3 \
+    --input-path /tmp/artbox/text.md \
+    --output-path /tmp/artbox/speech.mp3 \
     --engine edge-tts
 ```
 
@@ -50,10 +50,10 @@ If you need to generate the audio for different language, you can use the flag
 
 ```bash
 $ echo "Bom dia, mundo!" > /tmp/artbox/text.md
-$ artbox voice text-to-speech \
+$ artbox speech text-to-speech \
     --title artbox \
-    --text-path /tmp/artbox/text.md \
-    --output-path /tmp/artbox/voice.mp3 \
+    --input-path /tmp/artbox/text.md \
+    --output-path /tmp/artbox/speech.mp3 \
     --lang pt
 ```
 
@@ -62,10 +62,10 @@ locale for that language, for example:
 
 ```bash
 $ echo "Are you ready to join Link and Zelda in fighting off this unprecedented threat to Hyrule?" > /tmp/artbox/text.md
-$ artbox voice text-to-speech \
+$ artbox speech text-to-speech \
     --title artbox \
-    --text-path /tmp/artbox/text.md \
-    --output-path /tmp/artbox/voice.mp3 \
+    --input-path /tmp/artbox/text.md \
+    --output-path /tmp/artbox/speech.mp3 \
     --engine edge-tts \
     --lang en-IN
 ```
@@ -75,10 +75,10 @@ and `--pitch`, for example:
 
 ```bash
 $ echo "Do you want some coffee?" > /tmp/artbox/text.md
-$ artbox voice text-to-speech \
+$ artbox speech text-to-speech \
     --title artbox \
-    --text-path /tmp/artbox/text.md \
-    --output-path /tmp/artbox/voice.mp3 \
+    --input-path /tmp/artbox/text.md \
+    --output-path /tmp/artbox/speech.mp3 \
     --engine edge-tts \
     --lang en \
     --rate +10% \

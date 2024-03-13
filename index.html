@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.6">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.13">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.50c56a3b.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.7e359304.min.css">
       
         
         <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
@@ -466,43 +466,43 @@ $<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </sp
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>mkdir<span class="w"> </span>/tmp/artbox
 </code></pre></div>
 <h3 id="convert-text-to-audio">Convert text to audio</h3>
-<p>By default, the <code>artbox voice</code> uses
+<p>By default, the <code>artbox speech</code> uses
 <a href="https://pypi.org/project/edge-tts/"><code>edge-tts</code></a> engine, but if you can also
 specify <a href="https://github.com/pndurette/gTTS"><code>gtts</code></a> with the flag
 <code>--engine gtts</code>.</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Are you ready to join Link and Zelda in fighting off this unprecedented threat to Hyrule?&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/tmp/artbox/text.md
-$<span class="w"> </span>artbox<span class="w"> </span>voice<span class="w"> </span>text-to-speech<span class="w"> </span><span class="se">\</span>
+$<span class="w"> </span>artbox<span class="w"> </span>speech<span class="w"> </span>text-to-speech<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--title<span class="w"> </span>artbox<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--text-path<span class="w"> </span>/tmp/artbox/text.md<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--output-path<span class="w"> </span>/tmp/artbox/voice.mp3<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--input-path<span class="w"> </span>/tmp/artbox/text.md<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-path<span class="w"> </span>/tmp/artbox/speech.mp3<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--engine<span class="w"> </span>edge-tts
 </code></pre></div>
 <p>If you need to generate the audio for different language, you can use the flag
 <code>--lang</code>:</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Bom dia, mundo!&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/tmp/artbox/text.md
-$<span class="w"> </span>artbox<span class="w"> </span>voice<span class="w"> </span>text-to-speech<span class="w"> </span><span class="se">\</span>
+$<span class="w"> </span>artbox<span class="w"> </span>speech<span class="w"> </span>text-to-speech<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--title<span class="w"> </span>artbox<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--text-path<span class="w"> </span>/tmp/artbox/text.md<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--output-path<span class="w"> </span>/tmp/artbox/voice.mp3<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--input-path<span class="w"> </span>/tmp/artbox/text.md<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-path<span class="w"> </span>/tmp/artbox/speech.mp3<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--lang<span class="w"> </span>pt
 </code></pre></div>
 <p>If you are using <code>edge-tts</code> engine (the default one), you can also specify the
 locale for that language, for example:</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Are you ready to join Link and Zelda in fighting off this unprecedented threat to Hyrule?&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/tmp/artbox/text.md
-$<span class="w"> </span>artbox<span class="w"> </span>voice<span class="w"> </span>text-to-speech<span class="w"> </span><span class="se">\</span>
+$<span class="w"> </span>artbox<span class="w"> </span>speech<span class="w"> </span>text-to-speech<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--title<span class="w"> </span>artbox<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--text-path<span class="w"> </span>/tmp/artbox/text.md<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--output-path<span class="w"> </span>/tmp/artbox/voice.mp3<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--input-path<span class="w"> </span>/tmp/artbox/text.md<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-path<span class="w"> </span>/tmp/artbox/speech.mp3<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--engine<span class="w"> </span>edge-tts<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--lang<span class="w"> </span>en-IN
 </code></pre></div>
 <p>Additionally, if you are using edge-tts, you can specify <code>--rate</code>, <code>--volume</code>,
 and <code>--pitch</code>, for example:</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Do you want some coffee?&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/tmp/artbox/text.md
-$<span class="w"> </span>artbox<span class="w"> </span>voice<span class="w"> </span>text-to-speech<span class="w"> </span><span class="se">\</span>
+$<span class="w"> </span>artbox<span class="w"> </span>speech<span class="w"> </span>text-to-speech<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--title<span class="w"> </span>artbox<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--text-path<span class="w"> </span>/tmp/artbox/text.md<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--output-path<span class="w"> </span>/tmp/artbox/voice.mp3<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--input-path<span class="w"> </span>/tmp/artbox/text.md<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-path<span class="w"> </span>/tmp/artbox/speech.mp3<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--engine<span class="w"> </span>edge-tts<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--lang<span class="w"> </span>en<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--rate<span class="w"> </span>+10%<span class="w"> </span><span class="se">\</span>
@@ -651,7 +651,7 @@ as explained before.</p>
     <script id="__config" type="application/json">{"base": ".", "features": ["content.code.annotate", "content.tabs.link", "header.autohide", "navigation.indexes", "navigation.instant", "search.highlight", "search.share", "search.suggest"], "search": "assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="assets/javascripts/bundle.e1c3ead8.min.js"></script>
+      <script src="assets/javascripts/bundle.c8d2eff1.min.js"></script>
       
     
   </body>
