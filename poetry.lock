@@ -3987,13 +3987,13 @@ Levenshtein = "0.25.0"
 
 [[package]]
 name = "pytubefix"
-version = "2.1.1"
+version = "5.0.0"
 description = "Python3 library for downloading YouTube Videos."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pytubefix-2.1.1-py3-none-any.whl", hash = "sha256:741042675a909eec44975095bd5ed096588bdf2bc0f8c43d575778a923f153f7"},
-    {file = "pytubefix-2.1.1.tar.gz", hash = "sha256:f9df085f6f07e66a3ea576786c0c153e0990ea57c95ca920f7b19703a9c563cf"},
+    {file = "pytubefix-5.0.0-py3-none-any.whl", hash = "sha256:3191dc20caa50622b48d1ec2d6da42f85062d2337b9836011107b9ee90f98a44"},
+    {file = "pytubefix-5.0.0.tar.gz", hash = "sha256:0a3c2b633c4487ad606b57d87767b7b580d5ce353a11a9a1da7f392d02ff8f41"},
 ]
 
 [[package]]
@@ -5563,4 +5563,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">3.8.1,<3.12"
-content-hash = "488a94a4eec3c4897768cb0a9b1d34bc8a67526cf9b50ac1502455a761239252"
+content-hash = "ac981b23ec6ae87867b52a2c251d823d5bcbbb1095a6103052b9ebbe5ddaacd3"
