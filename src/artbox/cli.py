@@ -247,6 +247,32 @@ def video_extract_audio(
     runner.extract_audio()
 
 
+@app_video.command("get-metadata")
+def video_get_metadata(
+    input_path: Annotated[
+        str,
+        typer.Option(
+            "--input-path", help="Specify the path of the input video file"
+        ),
+    ] = "",
+    output_path: Annotated[
+        str,
+        typer.Option(
+            "--output-path",
+            help="Specify the path to store the extracted audio file",
+        ),
+    ] = "",
+) -> None:
+    """Get the metadata from a video (mp4)."""
+    args_dict = {
+        "input-path": input_path,
+        "output-path": output_path,
+    }
+
+    runner = Video(args_dict)
+    runner.get_metadata()
+
+
 @app_video.command("combine-video-and-audio")
 def video_combine_audio_and_video(
     video_path: Annotated[

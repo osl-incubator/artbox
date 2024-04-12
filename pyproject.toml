@@ -35,6 +35,7 @@ pytubefix = ">=5.0"
 speechrecognition = ">=3.10"
 vosk = ">=0.3.45"
 google-cloud-speech = ">=2.24.1"
+ffmpeg-python = ">=0.2.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = ">=7.3.2"
@@ -120,5 +121,6 @@ module = [
   "pydub.generators",
   "pytubefix",
   "speech_recognition",
+  "ffmpeg",
 ]
 ignore_missing_imports = true

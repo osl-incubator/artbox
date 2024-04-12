@@ -6,6 +6,8 @@ ref: https://github.com/ethand91/python-youtube/blob/master/main.py
 
 from abc import abstractmethod
 
+import ffmpeg
+
 from moviepy.editor import AudioFileClip, VideoFileClip
 from pytubefix import YouTube as PyYouTube
 
@@ -157,6 +159,60 @@ class Video(ArtBox):
         video_clip.reader.close()
 
         print(f"Audio has been extracted. Output saved at '{output_path}'.")
+
+    def get_metadata(self) -> None:
+        """
+        Extract metadata from an MP4 file using moviepy.
+
+        Returns
+        -------
+        Metadata of the MP4 file.
+        """
+        file_path = str(self.input_path)
+
+        try:
+            probe = ffmpeg.probe(file_path)
+            general_metadata = probe.get("format", {})
+            streams_metadata = probe.get("streams", [])
+
+            detailed_metadata = {
+                "format": general_metadata.get("format_name"),
+                "duration": general_metadata.get("duration"),
+                "size": general_metadata.get("size"),
+                "bit_rate": general_metadata.get("bit_rate"),
+                "tags": general_metadata.get("tags", {}),
+                "streams": [],
+            }
+
+            for stream in streams_metadata:
+                stream_info = {
+                    "index": stream.get("index"),
+                    "type": stream.get("codec_type"),
+                    "codec": stream.get("codec_name"),
+                    "profile": stream.get("profile"),
+                    "resolution": (
+                        f"{stream.get('width')}x{stream.get('height')}"
+                        if stream.get("codec_type") == "video"
+                        else None
+                    ),
+                    "bit_rate": stream.get("bit_rate"),
+                    "sample_rate": stream.get("sample_rate")
+                    if stream.get("codec_type") == "audio"
+                    else None,
+                    "channels": stream.get("channels")
+                    if stream.get("codec_type") == "audio"
+                    else None,
+                    "tags": stream.get("tags", {}),
+                }
+                detailed_metadata["streams"].append(stream_info)
+
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return
+
+        with open(self.output_path, "w") as f:
+            f.write(str(detailed_metadata))
+        print(detailed_metadata)
 
     def remove_audio(self) -> None:
         """Remove the audio from an MP4 file."""
