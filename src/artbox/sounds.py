@@ -5,6 +5,9 @@ import json
 from math import log2
 
 import aubio
+import librosa
+import librosa.display
+import matplotlib.pyplot as plt
 import noisereduce as nr
 import numpy as np
 
@@ -299,3 +302,28 @@ class Sound(ArtBox):
             json.dump(notes, f)
 
         return notes
+
+    def spectrogram(self):
+        """Generate a spectrogram from an MP3 file and saves it as an image."""
+        mp3_file_path = str(self.input_path)
+        output_file_path = str(self.output_path)
+
+        # Load the audio file
+        y, sr = librosa.load(mp3_file_path)
+
+        # Generate a spectrogram
+        S = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128, fmax=8000)
+        S_dB = librosa.power_to_db(S, ref=np.max)
+
+        # Plot the spectrogram
+        plt.figure(figsize=(10, 4))
+        librosa.display.specshow(
+            S_dB, sr=sr, x_axis="time", y_axis="mel", fmax=8000
+        )
+        plt.colorbar(format="%+2.0f dB")
+        plt.title("Mel-frequency spectrogram")
+        plt.tight_layout()
+
+        # Save the spectrogram as an image
+        plt.savefig(output_file_path)
+        plt.close()  # Close the plot to free up memory
