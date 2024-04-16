@@ -36,6 +36,9 @@ speechrecognition = ">=3.10"
 vosk = ">=0.3.45"
 google-cloud-speech = ">=2.24.1"
 ffmpeg-python = ">=0.2.0"
+matplotlib = "<=3.9"
+scipy = "<1.23"
+librosa = ">=0.10.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = ">=7.3.2"
@@ -122,5 +125,7 @@ module = [
   "pytubefix",
   "speech_recognition",
   "ffmpeg",
+  "matplotlib.pyplot",
+  "matplotlib",
 ]
 ignore_missing_imports = true

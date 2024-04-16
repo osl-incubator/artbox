@@ -196,6 +196,31 @@ def sound_notes_to_audio(
     runner.notes_to_audio()
 
 
+@app_sound.command("spectrogram")
+def sound_spectrogram(
+    input_path: Annotated[
+        str,
+        typer.Option(
+            "--input-path", help="Specify the path of the input file"
+        ),
+    ] = "",
+    output_path: Annotated[
+        str,
+        typer.Option(
+            "--output-path", help="Specify the path to store the audio file"
+        ),
+    ] = "",
+) -> None:
+    """Generate a spectrogram from an MP3 file and saves it as an image."""
+    args_dict = {
+        "input-path": input_path,
+        "output-path": output_path,
+    }
+
+    runner = Sound(args_dict)
+    runner.spectrogram()
+
+
 @app_video.command("remove-audio")
 def video_remove_audio(
     input_path: Annotated[
