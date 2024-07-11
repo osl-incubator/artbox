@@ -29,6 +29,7 @@ jobs:
   tests:
     needs: check-branch
     strategy:
+      fail-fast: true
       matrix:
         python_version:
           - "3.8.1"
