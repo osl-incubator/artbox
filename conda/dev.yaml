@@ -13,3 +13,4 @@ dependencies:
   - shellcheck
   - pip:
       - paginate
+      - numpy==1.26.4
