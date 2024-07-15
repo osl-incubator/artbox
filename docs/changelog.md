@@ -1,6 +1,19 @@
 # Release Notes
 ---
 
+# [0.8.0](https://github.com/osl-incubator/artbox/compare/0.7.0...0.8.0) (2024-07-15)
+
+
+### Bug Fixes
+
+* Update python pinning restriction (>=3.9,<4) ([#29](https://github.com/osl-incubator/artbox/issues/29)) ([765f1dd](https://github.com/osl-incubator/artbox/commit/765f1dd35569934f57eb7e9acfda59b2d5788be7))
+* Update pytubefix to version 5 ([#26](https://github.com/osl-incubator/artbox/issues/26)) ([d7b2917](https://github.com/osl-incubator/artbox/commit/d7b291708d9455bbc22881669d868eb2fef79e17))
+
+
+### Features
+
+* Add functionality for extracting metadata and for plot a spectrogram ([#28](https://github.com/osl-incubator/artbox/issues/28)) ([5236e7d](https://github.com/osl-incubator/artbox/commit/5236e7d0d3d379a418d3cfdbb6ea85436959f0d6))
+
 # [0.7.0](https://github.com/osl-incubator/artbox/compare/0.6.0...0.7.0) (2024-03-13)
 
 
