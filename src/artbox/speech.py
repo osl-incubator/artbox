@@ -98,6 +98,7 @@ class SpeechEngineMSEdgeTTS(SpeechFromTextEngineBase):
         rate = self.args.get("rate", "+0%")
         volume = self.args.get("volume", "+0%")
         pitch = self.args.get("pitch", "+0Hz")
+        gender = self.args.get("gender", "female").title()
 
         if not title:
             raise Exception("Argument `title` not given")
@@ -109,8 +110,10 @@ class SpeechEngineMSEdgeTTS(SpeechFromTextEngineBase):
             text = f.read()
 
         params = {"Locale": lang} if "-" in lang else {"Language": lang}
+        params.update({"Gender": gender})
+
         voices = await VoicesManager.create()
-        voice_options = voices.find(Gender="Female", **params)
+        voice_options = voices.find(**params)
 
         communicate = edge_tts.Communicate(
             text=text,

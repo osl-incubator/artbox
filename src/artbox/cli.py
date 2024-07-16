@@ -108,6 +108,12 @@ def speech_from_text(
         str,
         typer.Option("--pitch", help="Decrease/Increase the pitch level"),
     ] = "+0Hz",
+    gender: Annotated[
+        str,
+        typer.Option(
+            "--gender", help="Define the gender voice type: female or male"
+        ),
+    ] = "Female",
 ) -> None:
     """Convert text to speech."""
     args_dict = {
@@ -119,6 +125,7 @@ def speech_from_text(
         "rate": rate,
         "volume": volume,
         "pitch": pitch,
+        "gender": gender,
     }
 
     runner = SpeechFromText(args_dict)
@@ -194,6 +201,44 @@ def sound_notes_to_audio(
 
     runner = Sound(args_dict)
     runner.notes_to_audio()
+
+
+@app_sound.command("repeat")
+def sound_repeat(
+    input_path: Annotated[
+        str,
+        typer.Option(
+            "--input-path", help="Specify the path of the input file"
+        ),
+    ] = "",
+    output_path: Annotated[
+        str,
+        typer.Option(
+            "--output-path", help="Specify the path to store the audio file"
+        ),
+    ] = "",
+    count: Annotated[
+        str,
+        typer.Option("--count", help="Repetition count"),
+    ] = "2",
+    interval: Annotated[
+        str,
+        typer.Option(
+            "--interval",
+            help="Empty interval in seconds between each repetition.",
+        ),
+    ] = "0",
+) -> None:
+    """Repeat input audio the given times requested."""
+    args_dict = {
+        "input-path": input_path,
+        "output-path": output_path,
+        "count": count,
+        "interval": interval,
+    }
+
+    runner = Sound(args_dict)
+    runner.repeat()
 
 
 @app_sound.command("spectrogram")

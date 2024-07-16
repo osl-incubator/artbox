@@ -13,7 +13,7 @@ import numpy as np
 
 from moviepy.editor import VideoFileClip
 from pydub import AudioSegment
-from pydub.generators import Sine
+from pydub.generators import Silence, Sine
 
 from artbox.base import ArtBox
 
@@ -302,6 +302,31 @@ class Sound(ArtBox):
             json.dump(notes, f)
 
         return notes
+
+    def repeat(self) -> None:
+        """
+        Extend an MP3 file by repeating it a given number of times.
+
+        Optionally, it adds silent gap between repetitions.
+        """
+        input_file = str(self.input_path)
+        output_file = str(self.output_path)
+        count = int(self.args.get("count", "2"))
+        interval = int(self.args.get("interval", "0"))
+
+        # Load the original audio file
+        original_audio = AudioSegment.from_mp3(input_file)
+
+        # Generate silence
+        silence = Silence(interval * 1000)  # convert seconds to milliseconds
+
+        # Create the extended audio
+        extended_audio = AudioSegment.empty()
+        for _ in range(count):
+            extended_audio += original_audio + silence
+
+        # Export the extended audio to a new file
+        extended_audio.export(output_file, format="mp3")
 
     def spectrogram(self):
         """Generate a spectrogram from an MP3 file and saves it as an image."""
