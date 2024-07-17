@@ -4,11 +4,18 @@ Set of tools for video handling.
 ref: https://github.com/ethand91/python-youtube/blob/master/main.py
 """
 
+from __future__ import annotations
+
 from abc import abstractmethod
 
 import ffmpeg
 
-from moviepy.editor import AudioFileClip, ImageClip, VideoFileClip
+from moviepy.editor import (
+    AudioFileClip,
+    CompositeAudioClip,
+    ImageClip,
+    VideoFileClip,
+)
 from pytubefix import YouTube as PyYouTube
 
 from artbox.base import ArtBox
@@ -101,51 +108,82 @@ class Youtube(DownloadBase):
 class Video(ArtBox):
     """Set of tools for handing videos."""
 
-    def combine_video_and_audio(self) -> None:
-        """
-        Combine video and audio files to create a new MP4 file.
+    # def combine_video_and_audio(self) -> None:
+    #     """
+    #     Combine video and audio files to create a new MP4 file.
 
-        The result will be clipped to the time of the shorter input
-        (video or audio), and the audio will fade out smoothly over the last
-        5 seconds.
-        """
+    #     The result will be clipped to the time of the shorter input
+    #     (video or audio), and the audio will fade out smoothly over the last
+    #     5 seconds.
+    #     """
+    #     video_path = self.args.get("video-path", "")
+    #     audios_path = self.args.get("audios-path", [])
+    #     output_path = str(self.output_path)
+
+    #     if not video_path:
+    #         raise Exception("Argument `video-path` not given.")
+
+    #     if not audio_path:
+    #         raise Exception("Argument `audio-path` not given.")
+
+    #     # Load the video (without audio) from the MP4 file
+    #     video_clip = VideoFileClip(video_path)
+    #     video_clip = video_clip.without_audio()
+
+    #     # Load the audio from the MP3 file
+    #     for audio_path in audios_path:
+    #         audio_clip = AudioFileClip(audio_path)
+
+    #         # Determine the shorter duration of the two clips
+    #         min_duration = min(video_clip.duration, audio_clip.duration)
+
+    #         # Clip both the video and audio to the shorter duration
+    #         video_clip = video_clip.subclip(0, min_duration)
+    #         audio_clip = audio_clip.subclip(0, min_duration)
+
+    #         # Apply a 5-second fade-out effect to the audio
+    #         audio_clip = audio_clip.audio_fadeout(5)
+
+    #         # Set the audio of the video clip
+    #         final_clip = video_clip.set_audio(audio_clip)
+
+    #     # Write the result to the output file
+    #     final_clip.write_videofile(output_path, codec="libx264")
+
+    #     # Close all clips
+    #     video_clip.close()
+    #     audio_clip.close()
+    #     final_clip.close()
+
+    def combine_video_and_audio(self) -> None:
+        """Combine audio and video files."""
         video_path = self.args.get("video-path", "")
-        audio_path = self.args.get("audio-path", "")
+        audio_paths: list[str] = self.args.get("audio-paths", "").split(",")
         output_path = str(self.output_path)
 
-        if not video_path:
-            raise Exception("Argument `video-path` not given.")
-
-        if not audio_path:
-            raise Exception("Argument `audio-path` not given.")
-
-        # Load the video (without audio) from the MP4 file
+        # Load the video file
         video_clip = VideoFileClip(video_path)
-        video_clip = video_clip.without_audio()
 
-        # Load the audio from the MP3 file
-        audio_clip = AudioFileClip(audio_path)
+        # Load audio files
+        audio_clips = [AudioFileClip(audio_path) for audio_path in audio_paths]
 
-        # Determine the shorter duration of the two clips
-        min_duration = min(video_clip.duration, audio_clip.duration)
+        # Overlay all audio clips on top of each other
+        combined_audio = CompositeAudioClip(audio_clips)
 
-        # Clip both the video and audio to the shorter duration
-        video_clip = video_clip.subclip(0, min_duration)
-        audio_clip = audio_clip.subclip(0, min_duration)
+        # Set the audio of the video clip to the combined audio
+        final_clip = video_clip.set_audio(combined_audio)
 
-        # Apply a 5-second fade-out effect to the audio
-        audio_clip = audio_clip.audio_fadeout(5)
-
-        # Set the audio of the video clip
-        final_clip = video_clip.set_audio(audio_clip)
-
-        # Write the result to the output file
-        final_clip.write_videofile(output_path, codec="libx264")
+        # Export the final video
+        final_clip.write_videofile(
+            output_path, codec="libx264", audio_codec="aac"
+        )
 
         # Close all clips
         video_clip.close()
-        audio_clip.close()
         final_clip.close()
+
+        for audio_clip in audio_clips:
+            audio_clip.close()
 
     def extract_audio(self) -> None:
         """Extract audio from an MP4 file."""

@@ -1,5 +1,8 @@
 """Cli functions to define the arguments and to call Makim."""
 
+from __future__ import annotations
+
+# from typing import List
 import typer
 
 from typing_extensions import Annotated
@@ -352,11 +355,11 @@ def video_combine_audio_and_video(
         ),
     ] = "",
     audio_path: Annotated[
-        str,
+        list[str],
         typer.Option(
-            "--audio-path", help="Specify the path of the audio file"
+            "--audio-path", help="Specify the paths of the audio files"
         ),
-    ] = "",
+    ] = [],
     output_path: Annotated[
         str,
         typer.Option(
@@ -368,7 +371,7 @@ def video_combine_audio_and_video(
     """Combine audio and video files."""
     args_dict = {
         "video-path": video_path,
-        "audio-path": audio_path,
+        "audio-paths": ",".join(audio_path),
         "output-path": output_path,
     }
 
