@@ -13,7 +13,8 @@ import numpy as np
 
 from moviepy.editor import VideoFileClip
 from pydub import AudioSegment
-from pydub.generators import Silence, Sine
+from pydub.generators import Sine
+from tqdm import tqdm
 
 from artbox.base import ArtBox
 
@@ -312,17 +313,17 @@ class Sound(ArtBox):
         input_file = str(self.input_path)
         output_file = str(self.output_path)
         count = int(self.args.get("count", "2"))
-        interval = int(self.args.get("interval", "0"))
+        interval = float(self.args.get("interval", "0"))
 
         # Load the original audio file
         original_audio = AudioSegment.from_mp3(input_file)
 
-        # Generate silence
-        silence = Silence(interval * 1000)  # convert seconds to milliseconds
+        # Generate silence, convert seconds to milliseconds
+        silence = AudioSegment.silent(duration=int(interval * 1000))
 
         # Create the extended audio
         extended_audio = AudioSegment.empty()
-        for _ in range(count):
+        for _ in tqdm(range(count), desc="Repeating audio", unit="times"):
             extended_audio += original_audio + silence
 
         # Export the extended audio to a new file

@@ -8,7 +8,7 @@ from abc import abstractmethod
 
 import ffmpeg
 
-from moviepy.editor import AudioFileClip, VideoFileClip
+from moviepy.editor import AudioFileClip, ImageClip, VideoFileClip
 from pytubefix import YouTube as PyYouTube
 
 from artbox.base import ArtBox
@@ -224,3 +224,18 @@ class Video(ArtBox):
 
         # Write the result to a file
         video.write_videofile(str(self.output_path), codec="libx264")
+
+    def image_to_video(self) -> None:
+        """Convert a static image to a video with a given duration."""
+        image_path = str(self.input_path)
+        output_path = str(self.output_path)
+        duration = float(self.args.get("duration", "1"))
+
+        # Load the image
+        clip = ImageClip(image_path, duration=duration)
+
+        # Set the frame rate
+        clip = clip.set_fps(24)
+
+        # Write the video file
+        clip.write_videofile(output_path, codec="libx264")

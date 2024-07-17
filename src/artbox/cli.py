@@ -376,6 +376,39 @@ def video_combine_audio_and_video(
     runner.combine_video_and_audio()
 
 
+@app_video.command("image-to-video")
+def video_image_to_video(
+    input_path: Annotated[
+        str,
+        typer.Option(
+            "--input-path", help="Specify the path of the input video file"
+        ),
+    ] = "",
+    output_path: Annotated[
+        str,
+        typer.Option(
+            "--output-path", help="Specify the path to store the video file"
+        ),
+    ] = "",
+    duration: Annotated[
+        str,
+        typer.Option(
+            "--duration",
+            help="The duration of new video.",
+        ),
+    ] = "0",
+) -> None:
+    """Convert image to video."""
+    args_dict = {
+        "input-path": input_path,
+        "output-path": output_path,
+        "duration": duration,
+    }
+
+    runner = Video(args_dict)
+    runner.image_to_video()
+
+
 @app_youtube.command("download")
 def youtube_download(
     url: Annotated[
