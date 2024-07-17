@@ -412,6 +412,47 @@ def video_image_to_video(
     runner.image_to_video()
 
 
+@app_video.command("crop")
+def video_crop(
+    input_path: Annotated[
+        str,
+        typer.Option(
+            "--input-path", help="Specify the path of the input video file"
+        ),
+    ] = "",
+    output_path: Annotated[
+        str,
+        typer.Option(
+            "--output-path", help="Specify the path to store the video file"
+        ),
+    ] = "",
+    start_time: Annotated[
+        str,
+        typer.Option(
+            "--start-time",
+            help="The start time for the crop (default is 0)",
+        ),
+    ] = "0",
+    end_time: Annotated[
+        str,
+        typer.Option(
+            "--end-time",
+            help="The end time for the crop (default is 0)",
+        ),
+    ] = "0",
+) -> None:
+    """Crop a video to the specified time range and add fade effects."""
+    args_dict = {
+        "input-path": input_path,
+        "output-path": output_path,
+        "start-time": start_time,
+        "end-time": end_time,
+    }
+
+    runner = Video(args_dict)
+    runner.crop()
+
+
 @app_youtube.command("download")
 def youtube_download(
     url: Annotated[
