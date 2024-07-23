@@ -258,12 +258,13 @@ class Video(ArtBox):
         image_path = str(self.input_path)
         output_path = str(self.output_path)
         duration = float(self.args.get("duration", "1"))
+        fps = 24
 
         # Load the image
         clip = ImageClip(image_path, duration=duration)
 
         # Set the frame rate
-        clip = clip.set_fps(24)
+        clip = clip.set_fps(fps)
 
         # Write the video file
         clip.write_videofile(output_path, codec="libx264")

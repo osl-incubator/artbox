@@ -117,6 +117,12 @@ def speech_from_text(
             "--gender", help="Define the gender voice type: female or male"
         ),
     ] = "Female",
+    voice_id: Annotated[
+        str,
+        typer.Option(
+            "--voice-id", help="Default 0, -1 = random, < -1 = all voices"
+        ),
+    ] = "0",
 ) -> None:
     """Convert text to speech."""
     args_dict = {
@@ -129,6 +135,7 @@ def speech_from_text(
         "volume": volume,
         "pitch": pitch,
         "gender": gender,
+        "voice-id": voice_id,
     }
 
     runner = SpeechFromText(args_dict)
@@ -242,6 +249,82 @@ def sound_repeat(
 
     runner = Sound(args_dict)
     runner.repeat()
+
+
+@app_sound.command("repeat-infinite-loop")
+def sound_repeat_infinite_loop(
+    input_path: Annotated[
+        str,
+        typer.Option(
+            "--input-path", help="Specify the path of the input file"
+        ),
+    ] = "",
+    output_path: Annotated[
+        str,
+        typer.Option(
+            "--output-path", help="Specify the path to store the audio file"
+        ),
+    ] = "",
+    count: Annotated[
+        str,
+        typer.Option("--count", help="Repetition count"),
+    ] = "2",
+    crossfade_duration: Annotated[
+        str,
+        typer.Option(
+            "--crossfade-duration",
+            help="Crossfade duration in milliseconds between each repetition",
+        ),
+    ] = "100",
+) -> None:
+    """Repeat input audio the given times requested in a infinite loop style."""
+    args_dict = {
+        "input-path": input_path,
+        "output-path": output_path,
+        "count": count,
+        "crossfade-duration": crossfade_duration,
+    }
+
+    runner = Sound(args_dict)
+    runner.repeat_infinite_loop()
+
+
+@app_sound.command("crop")
+def sound_crop(
+    input_path: Annotated[
+        str,
+        typer.Option(
+            "--input-path", help="Specify the path of the input file"
+        ),
+    ] = "",
+    output_path: Annotated[
+        str,
+        typer.Option(
+            "--output-path", help="Specify the path to store the audio file"
+        ),
+    ] = "",
+    start_ms: Annotated[
+        str,
+        typer.Option("--start-ms", help="Start time in milliseconds"),
+    ] = "0",
+    end_ms: Annotated[
+        str,
+        typer.Option(
+            "--end-ms",
+            help="End time in milliseconds",
+        ),
+    ] = "0",
+) -> None:
+    """Repeat input audio the given times requested in a infinite loop style."""
+    args_dict = {
+        "input-path": input_path,
+        "output-path": output_path,
+        "start-ms": start_ms,
+        "end-ms": end_ms,
+    }
+
+    runner = Sound(args_dict)
+    runner.crop()
 
 
 @app_sound.command("spectrogram")

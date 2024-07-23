@@ -353,3 +353,43 @@ class Sound(ArtBox):
         # Save the spectrogram as an image
         plt.savefig(output_file_path)
         plt.close()  # Close the plot to free up memory
+
+    def repeat_infinite_loop(self) -> None:
+        """
+        Create an infinite loop audio.
+
+        Repeats the input file N times with a smooth transition.
+        """
+        input_file = str(self.input_path)
+        output_file = str(self.output_path)
+        count = int(self.args.get("count", "2"))
+        crossfade_duration = int(self.args.get("crossfade_duration", "0"))
+
+        # Load the original audio file
+        original_audio = AudioSegment.from_mp3(input_file)
+
+        # Create the looped audio with crossfade
+        looped_audio = original_audio
+        for _ in range(count - 1):
+            looped_audio = looped_audio.append(
+                original_audio, crossfade=crossfade_duration
+            )
+
+        # Export the final looped audio to a new file
+        looped_audio.export(output_file, format="mp3")
+
+    def crop(self) -> None:
+        """Crop an audio file to the specified time range."""
+        input_file = str(self.input_path)
+        output_file = str(self.output_path)
+        start_time_ms = int(self.args.get("start-ms", "0"))
+        end_time_ms = int(self.args.get("end-ms", "0"))
+
+        # Load the original audio file
+        audio = AudioSegment.from_file(input_file)
+
+        # Crop the audio to the specified time range
+        cropped_audio = audio[start_time_ms:end_time_ms]
+
+        # Export the cropped audio to a new file
+        cropped_audio.export(output_file, format="mp3")
