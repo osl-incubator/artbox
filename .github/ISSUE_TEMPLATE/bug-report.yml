@@ -141,7 +141,7 @@ body:
       description: |
         Read the [`ArtBox` Code of Conduct][CoC] first.
 
-        [CoC]: https://github.com/ggpedia/artbox/coc/CODE_OF_CONDUCT.md
+        [CoC]: https://github.com/osl-incubator/artbox/coc/CODE_OF_CONDUCT.md
       options:
         - label: I agree to follow the Code of Conduct
           required: true

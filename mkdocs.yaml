@@ -1,6 +1,6 @@
 site_name: ArtBox
-site_url: https://ggpedia.github.io/artbox
-repo_url: https://github.com/ggpedia/artbox
+site_url: https://osl-incubator.github.io/artbox
+repo_url: https://github.com/osl-incubator/artbox
 docs_dir: ./docs
 site_dir: ./build
 # extra_css:
@@ -123,7 +123,7 @@ markdown_extensions:
   - tables
   - toc
 extra:
-  project_name: "GGPEDIA Youtube"
+  project_name: "ArtBox"
   team:
     - name: "Active maintainers"
       members:
@@ -135,11 +135,11 @@ extra:
     - icon: fontawesome/brands/twitter
       link: https://twitter.com/xmnlab
     - icon: fontawesome/brands/github
-      link: https://github.com/ggpedia/artbox
+      link: https://github.com/osl-incubator/artbox
   support_levels:
     supported:
       icon: :material-check-decagram:{ .verified }
-      description: Tested in CI. If this doesn't work for you, please [file an issue](https://github.com/ggpedia/artbox/issues/new).
+      description: Tested in CI. If this doesn't work for you, please [file an issue](https://github.com/osl-incubator/artbox/issues/new).
     bug:
       icon: :material-bug:{ .bug }
       description: Should work but doesn't because upstream is broken. Supported on a best-effort basis.
@@ -147,4 +147,4 @@ extra:
       icon: :material-cancel:{ .cancel }
       description: Unlikely to ever be supported or no upstream support.
 
-copyright: "Copyright &copy; 2022, GGPEDIA Youtube Team"
+copyright: "Copyright &copy; 2022, ArtBox Team"

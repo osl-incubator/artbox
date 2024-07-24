@@ -354,7 +354,7 @@ class Sound(ArtBox):
         plt.savefig(output_file_path)
         plt.close()  # Close the plot to free up memory
 
-    def repeat_infinite_loop(self) -> None:
+    def seamless_loop(self) -> None:
         """
         Create an infinite loop audio.
 

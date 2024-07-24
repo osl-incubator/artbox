@@ -17,7 +17,7 @@ app = typer.Typer(
     help="A set of tools for handling multimedia files.",
     epilog=(
         "If you have any problem, open an issue at: "
-        "https://github.com/ggpedia/artbox"
+        "https://github.com/osl-incubator/artbox"
     ),
 )
 
