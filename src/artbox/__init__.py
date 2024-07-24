@@ -1,4 +1,4 @@
-"""GGPEDIA Youtube."""
+"""ArtBox."""
 # mypy: disable-error-code="attr-defined"
 
 from importlib import metadata as importlib_metadata

@@ -14,6 +14,7 @@ import numpy as np
 from moviepy.editor import VideoFileClip
 from pydub import AudioSegment
 from pydub.generators import Sine
+from tqdm import tqdm
 
 from artbox.base import ArtBox
 
@@ -303,6 +304,31 @@ class Sound(ArtBox):
 
         return notes
 
+    def repeat(self) -> None:
+        """
+        Extend an MP3 file by repeating it a given number of times.
+
+        Optionally, it adds silent gap between repetitions.
+        """
+        input_file = str(self.input_path)
+        output_file = str(self.output_path)
+        count = int(self.args.get("count", "2"))
+        interval = float(self.args.get("interval", "0"))
+
+        # Load the original audio file
+        original_audio = AudioSegment.from_mp3(input_file)
+
+        # Generate silence, convert seconds to milliseconds
+        silence = AudioSegment.silent(duration=int(interval * 1000))
+
+        # Create the extended audio
+        extended_audio = AudioSegment.empty()
+        for _ in tqdm(range(count), desc="Repeating audio", unit="times"):
+            extended_audio += original_audio + silence
+
+        # Export the extended audio to a new file
+        extended_audio.export(output_file, format="mp3")
+
     def spectrogram(self):
         """Generate a spectrogram from an MP3 file and saves it as an image."""
         mp3_file_path = str(self.input_path)
@@ -327,3 +353,43 @@ class Sound(ArtBox):
         # Save the spectrogram as an image
         plt.savefig(output_file_path)
         plt.close()  # Close the plot to free up memory
+
+    def seamless_loop(self) -> None:
+        """
+        Create an infinite loop audio.
+
+        Repeats the input file N times with a smooth transition.
+        """
+        input_file = str(self.input_path)
+        output_file = str(self.output_path)
+        count = int(self.args.get("count", "2"))
+        crossfade_duration = int(self.args.get("crossfade_duration", "0"))
+
+        # Load the original audio file
+        original_audio = AudioSegment.from_mp3(input_file)
+
+        # Create the looped audio with crossfade
+        looped_audio = original_audio
+        for _ in range(count - 1):
+            looped_audio = looped_audio.append(
+                original_audio, crossfade=crossfade_duration
+            )
+
+        # Export the final looped audio to a new file
+        looped_audio.export(output_file, format="mp3")
+
+    def crop(self) -> None:
+        """Crop an audio file to the specified time range."""
+        input_file = str(self.input_path)
+        output_file = str(self.output_path)
+        start_time_ms = int(self.args.get("start-ms", "0"))
+        end_time_ms = int(self.args.get("end-ms", "0"))
+
+        # Load the original audio file
+        audio = AudioSegment.from_file(input_file)
+
+        # Crop the audio to the specified time range
+        cropped_audio = audio[start_time_ms:end_time_ms]
+
+        # Export the cropped audio to a new file
+        cropped_audio.export(output_file, format="mp3")

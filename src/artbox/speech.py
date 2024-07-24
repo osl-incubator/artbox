@@ -17,6 +17,7 @@ import speech_recognition as sr
 
 from edge_tts import VoicesManager
 from pydub import AudioSegment
+from tqdm import tqdm
 
 from artbox.base import ArtBox
 
@@ -98,6 +99,8 @@ class SpeechEngineMSEdgeTTS(SpeechFromTextEngineBase):
         rate = self.args.get("rate", "+0%")
         volume = self.args.get("volume", "+0%")
         pitch = self.args.get("pitch", "+0Hz")
+        gender = self.args.get("gender", "female").title()
+        voice_id = int(self.args.get("voice-id", "0"))
 
         if not title:
             raise Exception("Argument `title` not given")
@@ -109,21 +112,61 @@ class SpeechEngineMSEdgeTTS(SpeechFromTextEngineBase):
             text = f.read()
 
         params = {"Locale": lang} if "-" in lang else {"Language": lang}
-        voices = await VoicesManager.create()
-        voice_options = voices.find(Gender="Female", **params)
+        params.update({"Gender": gender})
 
-        communicate = edge_tts.Communicate(
+        voices = await VoicesManager.create()
+        voice_options = voices.find(**params)
+
+        comm_params = dict(
             text=text,
-            voice=random.choice(voice_options)["Name"],
             rate=rate,
             volume=volume,
             pitch=pitch,
         )
-        with open(self.output_path, "wb") as file:
+
+        if voice_id < -1:
+            # create a file for all ids
+            for new_voice_id in tqdm(
+                range(len(voice_options)),
+                desc="Generating speech",
+                unit="times",
+            ):
+                voice_item = voice_options[new_voice_id]
+                communicate = edge_tts.Communicate(
+                    voice=voice_item["Name"], **comm_params
+                )
+                # todo: temporary
+                output_path = f"{self.output_path}-{new_voice_id}.mp3"
+
+                await self._generate_speech(
+                    communicate,
+                    output_path,
+                    verbose=False,
+                )
+            return
+
+        if voice_id >= 0:
+            voice_item = voice_options[voice_id]
+        else:
+            voice_item = random.choice(voice_options)
+
+        communicate = edge_tts.Communicate(
+            voice=voice_item["Name"], **comm_params
+        )
+        await self._generate_speech(communicate, self.output_path)
+
+    async def _generate_speech(
+        self,
+        communicate: edge_tts.Communicate,
+        output_path: str,
+        verbose: bool = True,
+    ) -> None:
+        """Generate speech file."""
+        with open(output_path, "wb") as file:
             async for chunk in communicate.stream():
                 if chunk["type"] == "audio":
                     file.write(chunk["data"])
-                elif chunk["type"] == "WordBoundary":
+                elif chunk["type"] == "WordBoundary" and verbose:
                     print(f"WordBoundary: {chunk}")
 
     def convert(self) -> None:

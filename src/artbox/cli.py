@@ -1,5 +1,8 @@
 """Cli functions to define the arguments and to call Makim."""
 
+from __future__ import annotations
+
+# from typing import List
 import typer
 
 from typing_extensions import Annotated
@@ -14,7 +17,7 @@ app = typer.Typer(
     help="A set of tools for handling multimedia files.",
     epilog=(
         "If you have any problem, open an issue at: "
-        "https://github.com/ggpedia/artbox"
+        "https://github.com/osl-incubator/artbox"
     ),
 )
 
@@ -108,6 +111,18 @@ def speech_from_text(
         str,
         typer.Option("--pitch", help="Decrease/Increase the pitch level"),
     ] = "+0Hz",
+    gender: Annotated[
+        str,
+        typer.Option(
+            "--gender", help="Define the gender voice type: female or male"
+        ),
+    ] = "Female",
+    voice_id: Annotated[
+        str,
+        typer.Option(
+            "--voice-id", help="Default 0, -1 = random, < -1 = all voices"
+        ),
+    ] = "0",
 ) -> None:
     """Convert text to speech."""
     args_dict = {
@@ -119,6 +134,8 @@ def speech_from_text(
         "rate": rate,
         "volume": volume,
         "pitch": pitch,
+        "gender": gender,
+        "voice-id": voice_id,
     }
 
     runner = SpeechFromText(args_dict)
@@ -194,6 +211,120 @@ def sound_notes_to_audio(
 
     runner = Sound(args_dict)
     runner.notes_to_audio()
+
+
+@app_sound.command("repeat")
+def sound_repeat(
+    input_path: Annotated[
+        str,
+        typer.Option(
+            "--input-path", help="Specify the path of the input file"
+        ),
+    ] = "",
+    output_path: Annotated[
+        str,
+        typer.Option(
+            "--output-path", help="Specify the path to store the audio file"
+        ),
+    ] = "",
+    count: Annotated[
+        str,
+        typer.Option("--count", help="Repetition count"),
+    ] = "2",
+    interval: Annotated[
+        str,
+        typer.Option(
+            "--interval",
+            help="Empty interval in seconds between each repetition.",
+        ),
+    ] = "0",
+) -> None:
+    """Repeat input audio the given times requested."""
+    args_dict = {
+        "input-path": input_path,
+        "output-path": output_path,
+        "count": count,
+        "interval": interval,
+    }
+
+    runner = Sound(args_dict)
+    runner.repeat()
+
+
+@app_sound.command("repeat-infinite-loop")
+def sound_repeat_infinite_loop(
+    input_path: Annotated[
+        str,
+        typer.Option(
+            "--input-path", help="Specify the path of the input file"
+        ),
+    ] = "",
+    output_path: Annotated[
+        str,
+        typer.Option(
+            "--output-path", help="Specify the path to store the audio file"
+        ),
+    ] = "",
+    count: Annotated[
+        str,
+        typer.Option("--count", help="Repetition count"),
+    ] = "2",
+    crossfade_duration: Annotated[
+        str,
+        typer.Option(
+            "--crossfade-duration",
+            help="Crossfade duration in milliseconds between each repetition",
+        ),
+    ] = "100",
+) -> None:
+    """Repeat input audio the given times requested in a infinite loop style."""
+    args_dict = {
+        "input-path": input_path,
+        "output-path": output_path,
+        "count": count,
+        "crossfade-duration": crossfade_duration,
+    }
+
+    runner = Sound(args_dict)
+    runner.repeat_infinite_loop()
+
+
+@app_sound.command("crop")
+def sound_crop(
+    input_path: Annotated[
+        str,
+        typer.Option(
+            "--input-path", help="Specify the path of the input file"
+        ),
+    ] = "",
+    output_path: Annotated[
+        str,
+        typer.Option(
+            "--output-path", help="Specify the path to store the audio file"
+        ),
+    ] = "",
+    start_ms: Annotated[
+        str,
+        typer.Option("--start-ms", help="Start time in milliseconds"),
+    ] = "0",
+    end_ms: Annotated[
+        str,
+        typer.Option(
+            "--end-ms",
+            help="End time in milliseconds",
+        ),
+    ] = "0",
+) -> None:
+    """Repeat input audio the given times requested in a infinite loop style."""
+    args_dict = {
+        "input-path": input_path,
+        "output-path": output_path,
+        "start-ms": start_ms,
+        "end-ms": end_ms,
+    }
+
+    runner = Sound(args_dict)
+    runner.crop()
 
 
 @app_sound.command("spectrogram")
@@ -307,11 +438,11 @@ def video_combine_audio_and_video(
         ),
     ] = "",
     audio_path: Annotated[
-        str,
+        list[str],
         typer.Option(
-            "--audio-path", help="Specify the path of the audio file"
+            "--audio-path", help="Specify the paths of the audio files"
         ),
-    ] = "",
+    ] = [],
     output_path: Annotated[
         str,
         typer.Option(
@@ -323,12 +454,86 @@ def video_combine_audio_and_video(
     """Combine audio and video files."""
     args_dict = {
         "video-path": video_path,
-        "audio-path": audio_path,
+        "audio-paths": ",".join(audio_path),
         "output-path": output_path,
     }
 
     runner = Video(args_dict)
     runner.combine_video_and_audio()
+
+
+@app_video.command("image-to-video")
+def video_image_to_video(
+    input_path: Annotated[
+        str,
+        typer.Option(
+            "--input-path", help="Specify the path of the input video file"
+        ),
+    ] = "",
+    output_path: Annotated[
+        str,
+        typer.Option(
+            "--output-path", help="Specify the path to store the video file"
+        ),
+    ] = "",
+    duration: Annotated[
+        str,
+        typer.Option(
+            "--duration",
+            help="The duration of new video.",
+        ),
+    ] = "0",
+) -> None:
+    """Convert image to video."""
+    args_dict = {
+        "input-path": input_path,
+        "output-path": output_path,
+        "duration": duration,
+    }
+
+    runner = Video(args_dict)
+    runner.image_to_video()
+
+
+@app_video.command("crop")
+def video_crop(
+    input_path: Annotated[
+        str,
+        typer.Option(
+            "--input-path", help="Specify the path of the input video file"
+        ),
+    ] = "",
+    output_path: Annotated[
+        str,
+        typer.Option(
+            "--output-path", help="Specify the path to store the video file"
+        ),
+    ] = "",
+    start_time: Annotated[
+        str,
+        typer.Option(
+            "--start-time",
+            help="The start time for the crop (default is 0)",
+        ),
+    ] = "0",
+    end_time: Annotated[
+        str,
+        typer.Option(
+            "--end-time",
+            help="The end time for the crop (default is 0)",
+        ),
+    ] = "0",
+) -> None:
+    """Crop a video to the specified time range and add fade effects."""
+    args_dict = {
+        "input-path": input_path,
+        "output-path": output_path,
+        "start-time": start_time,
+        "end-time": end_time,
+    }
+
+    runner = Video(args_dict)
+    runner.crop()
 
 
 @app_youtube.command("download")

@@ -2,7 +2,7 @@
 
 ArtBox is a tool set for handling multimedia files.
 
-- Documentation: https://ggpedia.games
+- Documentation: https://osl-incubator.games
 - License: BSD-3 Clause
 
 ## Features

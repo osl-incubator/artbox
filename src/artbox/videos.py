@@ -4,11 +4,18 @@ Set of tools for video handling.
 ref: https://github.com/ethand91/python-youtube/blob/master/main.py
 """
 
+from __future__ import annotations
+
 from abc import abstractmethod
 
 import ffmpeg
 
-from moviepy.editor import AudioFileClip, VideoFileClip
+from moviepy.editor import (
+    AudioFileClip,
+    CompositeAudioClip,
+    ImageClip,
+    VideoFileClip,
+)
 from pytubefix import YouTube as PyYouTube
 
 from artbox.base import ArtBox
@@ -102,50 +109,71 @@ class Video(ArtBox):
     """Set of tools for handing videos."""
 
     def combine_video_and_audio(self) -> None:
-        """
-        Combine video and audio files to create a new MP4 file.
-
-        The result will be clipped to the time of the shorter input
-        (video or audio), and the audio will fade out smoothly over the last
-        5 seconds.
-        """
+        """Combine audio and video files."""
         video_path = self.args.get("video-path", "")
-        audio_path = self.args.get("audio-path", "")
+        audio_paths: list[str] = self.args.get("audio-paths", "").split(",")
         output_path = str(self.output_path)
 
-        if not video_path:
-            raise Exception("Argument `video-path` not given.")
-
-        if not audio_path:
-            raise Exception("Argument `audio-path` not given.")
-
-        # Load the video (without audio) from the MP4 file
+        # Load the video file
         video_clip = VideoFileClip(video_path)
-        video_clip = video_clip.without_audio()
 
-        # Load the audio from the MP3 file
-        audio_clip = AudioFileClip(audio_path)
+        # Load audio files
+        audio_clips = [AudioFileClip(audio_path) for audio_path in audio_paths]
 
-        # Determine the shorter duration of the two clips
-        min_duration = min(video_clip.duration, audio_clip.duration)
+        # Overlay all audio clips on top of each other
+        combined_audio = CompositeAudioClip(audio_clips)
 
-        # Clip both the video and audio to the shorter duration
-        video_clip = video_clip.subclip(0, min_duration)
-        audio_clip = audio_clip.subclip(0, min_duration)
+        # Set the audio of the video clip to the combined audio
+        final_clip = video_clip.set_audio(combined_audio)
 
-        # Apply a 5-second fade-out effect to the audio
-        audio_clip = audio_clip.audio_fadeout(5)
-
-        # Set the audio of the video clip
-        final_clip = video_clip.set_audio(audio_clip)
-
-        # Write the result to the output file
-        final_clip.write_videofile(output_path, codec="libx264")
+        # Export the final video
+        final_clip.write_videofile(
+            output_path, codec="libx264", audio_codec="aac"
+        )
 
         # Close all clips
         video_clip.close()
-        audio_clip.close()
         final_clip.close()
+
+        for audio_clip in audio_clips:
+            audio_clip.close()
+
+    def crop(self) -> None:
+        """
+        Crop a video to the specified time range.
+
+        Notes
+        -----
+        - video_path: Path to the input video file.
+        - start_time: Start time in seconds.
+        - end_time: End time in seconds.
+        - output_path: Path to save the cropped video file.
+        """
+        video_path = self.input_path
+        start_time = float(self.args.get("start-time", "0"))
+        end_time = float(self.args.get("end-time", "0"))
+        output_path = self.output_path
+        fade_duration = 1
+
+        # Load the video file
+        video_clip = VideoFileClip(str(video_path))
+
+        # If end_time is 0 or not provided, set it to the duration of the video
+        if end_time == 0:
+            end_time = video_clip.duration
+
+        # Crop the video to the specified time range
+        cropped_clip = video_clip.subclip(start_time, end_time)
+
+        # Apply fade-in effect if start_time > 0
+        if start_time > 0:
+            cropped_clip = cropped_clip.fadein(fade_duration)
+
+        # Apply fade-out effect
+        cropped_clip = cropped_clip.fadeout(fade_duration)
+
+        # Export the cropped video with fade effects to a new file
+        cropped_clip.write_videofile(str(output_path), codec="libx264")
 
     def extract_audio(self) -> None:
         """Extract audio from an MP4 file."""
@@ -224,3 +252,19 @@ class Video(ArtBox):
 
         # Write the result to a file
         video.write_videofile(str(self.output_path), codec="libx264")
+
+    def image_to_video(self) -> None:
+        """Convert a static image to a video with a given duration."""
+        image_path = str(self.input_path)
+        output_path = str(self.output_path)
+        duration = float(self.args.get("duration", "1"))
+        fps = 24
+
+        # Load the image
+        clip = ImageClip(image_path, duration=duration)
+
+        # Set the frame rate
+        clip = clip.set_fps(fps)
+
+        # Write the video file
+        clip.write_videofile(output_path, codec="libx264")
